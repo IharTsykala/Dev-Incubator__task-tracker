@@ -95,5 +95,22 @@ $middlePadding: 2vw;
     background-color: $backgroundLight;
     justify-self: center;
     align-self: center;
+    .add-task__header {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding: $smallPadding $smallPadding;
+      border-bottom: 1px solid $colorLight;
+      .add-task__h5 {
+        font-size: $fsToDoHeader;
+      }
+      .add-task__button {
+        height: 100%;
+        width: 15%;
+        border: 0;
+        background-color: $backgroundLight;
+        cursor: pointer;
+        justify-self: end;
+      }
+    }
   }
 }

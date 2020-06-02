@@ -80,5 +80,22 @@
   justify-self: center;
   align-self: center;
 }
+.modal-window .add-task .add-task__header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 1vw 1vw;
+  border-bottom: 1px solid #e1e1e1;
+}
+.modal-window .add-task .add-task__header .add-task__h5 {
+  font-size: 2vw;
+}
+.modal-window .add-task .add-task__header .add-task__button {
+  height: 100%;
+  width: 15%;
+  border: 0;
+  background-color: #fafafa;
+  cursor: pointer;
+  justify-self: end;
+}
 
 /*# sourceMappingURL=style.css.map */
