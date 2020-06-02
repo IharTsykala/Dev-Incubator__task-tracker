@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="wrapper" class="wrapper">
-      <div class="modalWindow">
+      <div class="modal-window">
         <div class="add-task">
           <div class="add-task__header">
             <h5 class="add-task__h5"></h5>
@@ -41,25 +41,27 @@
         </div>
       </div>
       <nav class="navbar">
-        <h1 class="h1"></h1>
+        <h1 class="h1">MyToDoList</h1>
         <div class="sort">
           <button class="sort__button sort__button_up">up</button>
           <button class="sort__button sort__button_down">down</button>
         </div>
-        <div class="add-task-tongue">
-          <button class="add-task-tongue__button"></button>
-        </div>
-        <div class="setting">
-          <button class="setting__button"></button>
+        <div class="ruler-block">
+          <div class="add-task-tongue">
+            <button class="add-task-tongue__button">Add task</button>
+          </div>
+          <div class="setting">
+            <button class="setting__button">menu</button>
+          </div>
         </div>
       </nav>
       <main class="main">
         <section class="todo-section">
-          <h3>ToDo</h3>
+          <h3 class="todo-section__header">ToDo</h3>
           <div class="todo-section__array"></div>
         </section>
         <section class="complected-section">
-          <h3>Complected</h3>
+          <h3 class="complected-section__header">Complected</h3>
           <div class="complected-section__array"></div>
         </section>
       </main>
