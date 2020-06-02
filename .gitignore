@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 /.idea
+.code
 .eslintrc.js
 .prettierrc.js
 # testing
