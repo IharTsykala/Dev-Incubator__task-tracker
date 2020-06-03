@@ -35,13 +35,31 @@ class Controller {
     this.model = model
     this.addTaskWrapper = wrapper.querySelector('.add-task-wrapper')
     this.modalWindow = wrapper.querySelector('.modal-window')
+    this.addTask = wrapper.querySelector('.add-task')
+    this.addTaskHederClose = wrapper.querySelector('.add-task__header-close-button')
+    this.close = wrapper.querySelector('.close')
+    this.addTaskTongue = wrapper.querySelector('.add-task-tongue')
   }
 
   initial () {
     this.addTaskWrapper.addEventListener('click', () => this.model.tongueModalWindow())
     this.modalWindow.addEventListener('click', () => this.model.tongueModalWindow())
+    this.addTask.addEventListener('click', (e) => e.stopPropagation())
+    this.addTaskHederClose.addEventListener('click', () => this.model.tongueModalWindow())
+    this.close.addEventListener('click', () => this.model.tongueModalWindow())
+
+    this.addTaskTongue.addEventListener('click', (e) => this.handlerAddTaskTongue(e))
 
     this.model.createTask()
+  }
+
+  handlerAddTaskTongue (e) {
+    e.preventDefault()
+    const inputs = this.addTask.querySelectorAll('input')
+    if (inputs[0].value && inputs[1].value) this.model.createTask(inputs)
+    this.model.tongueModalWindow()
+    inputs[0].value = ''
+    inputs[1].value = ''
   }
 }
 class Model {
@@ -53,9 +71,15 @@ class Model {
     this.modalWindow = false
   }
 
-  createTask () {
-    this.arrayToDoTask = this.arrayToDoTask.concat(new Task(this.idTask++, 'First task', 'Hello', 'High'))
-    this.view.viewArrayTask(this.arrayToDoTask)
+  createTask (inputs) {
+    let newTask
+    if (inputs && inputs[0].value && inputs[1].value) {
+      newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, 'High')
+      this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
+    }
+    //  else this.arrayToDoTask = this.arrayToDoTask.concat(new Task(this.idTask++, 'First task', 'Hello', 'High'))
+    console.log(this.arrayToDoTask)
+    this.view.viewArrayTask(newTask)
   }
 
   tongueModalWindow () {
@@ -71,19 +95,14 @@ class View {
     this.modalWindow = wrapper.querySelector('.modal-window')
   }
 
-  viewArrayTask (array) {
-    // console.log(array)
-    array.map(item => this.arrayToDoTask.append(item.viewTask()))
+  viewArrayTask (newTask) {
+    // console.log(this.arrayToDoTask.children[0])
+    if (newTask) this.arrayToDoTask.append(newTask.viewTask())
   }
 
   viewModalWindow (booleanValue) {
     if (booleanValue) this.modalWindow.style.display = 'grid'
     else this.modalWindow.style.display = ''
-  }
-
-  deleteBlocks () {
-    // this.atmBlock.remove()
-    // this.queue.remove()
   }
 }
 

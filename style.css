@@ -108,7 +108,7 @@
 .modal-window .add-task .add-task__header .add-task__h5 {
   font-size: 2vw;
 }
-.modal-window .add-task .add-task__header .add-task__button {
+.modal-window .add-task .add-task__header .add-task__header-close-button {
   height: 100%;
   width: 15%;
   border: 0;

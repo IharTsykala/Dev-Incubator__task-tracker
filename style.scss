@@ -141,7 +141,7 @@ $middlePadding: 2vw;
       .add-task__h5 {
         font-size: $fsToDoHeader;
       }
-      .add-task__button {
+      .add-task__header-close-button {
         height: 100%;
         width: 15%;
         border: 0;
@@ -185,7 +185,6 @@ $middlePadding: 2vw;
             }
           }
         }
-
         .add-task__ruler {
           display: grid;
           grid-template-columns: 40% 1fr;
