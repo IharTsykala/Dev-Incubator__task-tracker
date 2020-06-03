@@ -4,7 +4,7 @@ class Task {
     this.title = title
     this.text = text
     this.priority = priority
-    this.data = new Date().toString().slice(0, 15)
+    this.data = new Date().toString().slice(0, 25)
   }
 
   fillContentTask (task) {
