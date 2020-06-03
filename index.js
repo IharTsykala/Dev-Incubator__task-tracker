@@ -3,11 +3,11 @@ class Task {
     this.id = id
     this.title = title
     this.text = text
-    this.priority = `${priority} priority`
+    this.priority = priority
     this.data = new Date().toString().slice(0, 15)
   }
 
-  contentTask (task) {
+  fillContentTask (task) {
     return (
   `<div class="task__information-block">
     <div class="task__header">
@@ -25,7 +25,7 @@ class Task {
   viewTask () {
     this.task = document.createElement('div')
     this.task.className = `task task${this.id}`
-    this.task.innerHTML = this.contentTask
+    this.task.innerHTML = this.fillContentTask()
     return this.task
   }
 }
@@ -37,26 +37,30 @@ class Controller {
   }
 
   initial () {
-    // this.buttonStart = wrapper.querySelector('.start')
-    // this.buttonStart.addEventListener('click', () => this.startQueue())
-    this.
+    this.addTask = wrapper.querySelector('.add-task-tongue__button')
+    this.addTask.addEventListener('click', () => this.model.tongueModalWindow())
+
+    this.model.createTask()
   }
 }
 class Model {
   constructor (view) {
     this.view = view
-    this.queue = []
-    this.idPerson = 1
-    this.amountATM = 3
-    this.arrATM = []
-    this.numberATM = 1
+    this.arrayToDoTask = []
+    this.arrayComplectedTask = []
+    this.idTask = 0
+    this.modalWindow = false
   }
 
-  createATM () {
-    for (let i = 0; i < this.amountATM; i++) {
-      // this.arrATM = this.arrATM.concat([new ModelATM(this.numberATM++)])
-    }
-    // this.view.createFirstATM(this.arrATM)
+  createTask () {
+    this.arrayToDoTask = this.arrayToDoTask.concat(new Task(this.idTask++, 'First task', 'Hello', 'High'))
+    // console.log(this.arrayToDoTask)
+
+    this.view.viewArrayTask(this.arrayToDoTask)
+  }
+
+  tongueModalWindow () {
+    this.modalWindow = !this.modalWindow
   }
 
   createPerson () {
@@ -67,85 +71,53 @@ class Model {
 
   }
 
-  checkFreeBase (currentServeATM) {
-
-  }
-
-  stopQueue () {
-
-  }
-
-  plusATM () {
-    // this.arrATM = this.arrATM.concat([new ModelATM(this.numberATM++)])
-
-  }
-
-  minusATM () {
-
-  }
-
   clearModel () {
-    console.log(this)
-    this.queue = []
-    this.idPerson = 1
-    this.amountATM = 3
-    this.arrATM = []
-    this.numberATM = 1
+    // console.log(this)
+    // this.queue = []
+    // this.idPerson = 1
+    // this.amountATM = 3
+    // this.arrATM = []
+    // this.numberATM = 1
   }
 }
 
 class View {
   constructor (wrapper) {
     this.wrapper = wrapper
+    this.arrayToDoTask = wrapper.querySelector('.todo-section__array')
+    this.modalWindow = wrapper.querySelector('.modal-window')
   }
 
   start () {
+    // this.firstTask = new Task(1, 'first', 'Hello', 'High')
 
+    // this.arrayToDoTask.append(this.firstTask.viewTask())
   }
 
-  createBlockATM () {
-
+  viewArrayTask (array) {
+    // console.log(array)
+    array.map(item => this.arrayToDoTask.append(item.viewTask()))
   }
 
-  createBlockQueue () {
+  viewModalWindow (booleanValue) {
 
   }
 
   createFirstATM (arrATM) {
-    if (!this.atmBlock.children.length) {
-      arrATM.forEach(() => {
-        this.createATM()
-      })
-    }
-  }
-
-  createATM () {
-
+    // if (!this.atmBlock.children.length) {
+    //   arrATM.forEach(() => {
+    //     this.createATM()
+    //   })
+    // }
   }
 
   addPersonView (newPerson) {
-    this.queue.append(newPerson.viewPerson())
-  }
-
-  goToATM (person, currentServeATM) {
-
+    // this.queue.append(newPerson.viewPerson())
   }
 
   deleteBlocks () {
-    this.atmBlock.remove()
-    this.queue.remove()
-  }
-
-  deletePersonView () {
-
-  }
-
-  plusATM () {
-
-  }
-
-  minusATM () {
-
+    // this.atmBlock.remove()
+    // this.queue.remove()
   }
 }
 
@@ -154,5 +126,5 @@ const view = new View(wrapper)
 const model = new Model(view)
 const controller = new Controller(model, wrapper)
 
-view.start()
+// view.start()
 controller.initial()
