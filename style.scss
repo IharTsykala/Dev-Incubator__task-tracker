@@ -75,9 +75,9 @@ $middlePadding: 2vw;
   grid-template-columns: repeat(2, auto);
   column-gap: 10px;
   height: 60%;
-  .add-task-tongue {
+  .add-task-wrapper {
     @extend %base-button__container;
-    .add-task-tongue__button {
+    .add-task-wrapper__button {
       @extend %base-button__inside;
     }
   }

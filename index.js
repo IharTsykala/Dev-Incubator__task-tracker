@@ -32,13 +32,14 @@ class Task {
 
 class Controller {
   constructor (model, wrapper) {
-    this.wrapper = wrapper
     this.model = model
+    this.addTaskWrapper = wrapper.querySelector('.add-task-wrapper')
+    this.modalWindow = wrapper.querySelector('.modal-window')
   }
 
   initial () {
-    this.addTask = wrapper.querySelector('.add-task-tongue__button')
-    this.addTask.addEventListener('click', () => this.model.tongueModalWindow())
+    this.addTaskWrapper.addEventListener('click', () => this.model.tongueModalWindow())
+    this.modalWindow.addEventListener('click', () => this.model.tongueModalWindow())
 
     this.model.createTask()
   }
@@ -54,30 +55,12 @@ class Model {
 
   createTask () {
     this.arrayToDoTask = this.arrayToDoTask.concat(new Task(this.idTask++, 'First task', 'Hello', 'High'))
-    // console.log(this.arrayToDoTask)
-
     this.view.viewArrayTask(this.arrayToDoTask)
   }
 
   tongueModalWindow () {
     this.modalWindow = !this.modalWindow
-  }
-
-  createPerson () {
-    // const person = new Person(this.idPerson)
-    // this.queue = this.queue.concat(person)
-    // this.view.addPersonView(person)
-    // this.idPerson++
-
-  }
-
-  clearModel () {
-    // console.log(this)
-    // this.queue = []
-    // this.idPerson = 1
-    // this.amountATM = 3
-    // this.arrATM = []
-    // this.numberATM = 1
+    this.view.viewModalWindow(this.modalWindow)
   }
 }
 
@@ -88,31 +71,14 @@ class View {
     this.modalWindow = wrapper.querySelector('.modal-window')
   }
 
-  start () {
-    // this.firstTask = new Task(1, 'first', 'Hello', 'High')
-
-    // this.arrayToDoTask.append(this.firstTask.viewTask())
-  }
-
   viewArrayTask (array) {
     // console.log(array)
     array.map(item => this.arrayToDoTask.append(item.viewTask()))
   }
 
   viewModalWindow (booleanValue) {
-
-  }
-
-  createFirstATM (arrATM) {
-    // if (!this.atmBlock.children.length) {
-    //   arrATM.forEach(() => {
-    //     this.createATM()
-    //   })
-    // }
-  }
-
-  addPersonView (newPerson) {
-    // this.queue.append(newPerson.viewPerson())
+    if (booleanValue) this.modalWindow.style.display = 'grid'
+    else this.modalWindow.style.display = ''
   }
 
   deleteBlocks () {

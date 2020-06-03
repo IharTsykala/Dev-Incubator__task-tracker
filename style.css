@@ -1,10 +1,10 @@
-.task .task__setting, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close, .ruler-block .setting, .ruler-block .add-task-tongue, .sort {
+.task .task__setting, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close, .ruler-block .setting, .ruler-block .add-task-wrapper, .sort {
   justify-self: end;
   align-self: center;
   height: 100%;
 }
 
-.task .task__setting .task__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button, .ruler-block .setting .setting__button, .ruler-block .add-task-tongue .add-task-tongue__button, .sort .sort__button {
+.task .task__setting .task__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button, .ruler-block .setting .setting__button, .ruler-block .add-task-wrapper .add-task-wrapper__button, .sort .sort__button {
   height: 100%;
   background-color: #3278ff;
   border: 0;
@@ -13,7 +13,7 @@
   color: #e1e1e1;
   font-size: 1.2vw;
 }
-.task .task__setting .task__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover, .ruler-block .setting .setting__button:hover, .ruler-block .add-task-tongue .add-task-tongue__button:hover, .sort .sort__button:hover {
+.task .task__setting .task__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover, .ruler-block .setting .setting__button:hover, .ruler-block .add-task-wrapper .add-task-wrapper__button:hover, .sort .sort__button:hover {
   background-color: #2814ff;
 }
 
