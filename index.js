@@ -56,10 +56,12 @@ class Controller {
   handlerAddTaskTongue (e) {
     e.preventDefault()
     const inputs = this.addTask.querySelectorAll('input')
-    if (inputs[0].value && inputs[1].value) this.model.createTask(inputs)
-    this.model.tongueModalWindow()
-    inputs[0].value = ''
-    inputs[1].value = ''
+    if (inputs[0].value && inputs[1].value) {
+      this.model.createTask(inputs)
+      this.model.tongueModalWindow()
+      inputs[0].value = ''
+      inputs[1].value = ''
+    }
   }
 }
 class Model {
@@ -72,10 +74,9 @@ class Model {
   }
 
   createTask (inputs) {
-    let newTask
     if (inputs && inputs[0].value && inputs[1].value) {
       const priority = Array.from(inputs).find(item => item.checked)
-      newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
+      const newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
       this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
       this.view.viewArrayTask(newTask)
     }
