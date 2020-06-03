@@ -22,26 +22,55 @@
               <i class="fas fa-times"></i>
             </button>
           </div>
-          <div class="add_task__body">
+          <div class="add-task__body">
             <form action="submit" class="add-task__form">
               <label class="add-task__label" for=""
-                ><input class="add-task__input" type="text"
+                >Title<input
+                  class="add-task__input"
+                  type="text"
+                  placeholder="Title"
               /></label>
               <label class="add-task__label" for=""
-                ><input class="add-task__input" type="text"
+                >Text<input
+                  class="add-task__input"
+                  type="text"
+                  placeholder="Text"
               /></label>
               <fieldset class="level-task">
-                <legend class="level-task__name"></legend>
-                <input class="level-task__input" type="radio" value="Low" />
-                <input class="level-task__input" type="radio" value="Medium" />
-                <input class="level-task__input" type="radio" value="High" />
+                <div class="level-task__wrapper">
+                  <legend class="level-task__name">Priority</legend>
+                  <div class="level-task__options">
+                    <label class="level-task__label" for=""
+                      ><input
+                        class="level-task__input"
+                        type="radio"
+                        value="Low"
+                        placeholder="Low"
+                      />Low</label
+                    >
+                    <label class="level-task__label" for="">
+                      <input
+                        class="level-task__input"
+                        type="radio"
+                        value="Medium"
+                      />Medium</label
+                    >
+                    <label class="level-task__label" for=""
+                      ><input
+                        class="level-task__input"
+                        type="radio"
+                        value="High"
+                      />High</label
+                    >
+                  </div>
+                </div>
               </fieldset>
               <div class="add-task__ruler">
                 <div class="close">
-                  <button class="close__button"></button>
+                  <button class="close__button">Close</button>
                 </div>
                 <div class="add-task-tongue">
-                  <button class="add-task-tongue__button"></button>
+                  <button class="add-task-tongue__button">Add task</button>
                 </div>
               </div>
             </form>
@@ -66,7 +95,25 @@
       <main class="main">
         <section class="todo-section">
           <h3 class="todo-section__header">ToDo</h3>
-          <div class="todo-section__array"></div>
+          <div class="todo-section__array">
+            <!-- <div class="task">
+              <div class="task__information-block">
+                <div class="task__header">
+                  <h4 class="task__title">Title</h4>
+                  <p class="task__priority">High priority</p>
+                  <p class="task__data">11:00 01.01.2000</p>
+                </div>
+                <p class="task__text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Adipisci aliquid eaque eligendi error eveniet nostrum nulla
+                  pariatur repudiandae, veniam. Provident.
+                </p>
+              </div>
+              <div class="task__setting">
+                <button class="task__button">***</button>
+              </div>
+            </div> -->
+          </div>
         </section>
         <section class="complected-section">
           <h3 class="complected-section__header">Complected</h3>

@@ -1,3 +1,22 @@
+.task .task__setting, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close, .ruler-block .setting, .ruler-block .add-task-tongue, .sort {
+  justify-self: end;
+  align-self: center;
+  height: 100%;
+}
+
+.task .task__setting .task__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button, .ruler-block .setting .setting__button, .ruler-block .add-task-tongue .add-task-tongue__button, .sort .sort__button {
+  height: 100%;
+  background-color: #3278ff;
+  border: 0;
+  padding: 0 1vw;
+  border-radius: 10%;
+  color: #e1e1e1;
+  font-size: 1.2vw;
+}
+.task .task__setting .task__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover, .ruler-block .setting .setting__button:hover, .ruler-block .add-task-tongue .add-task-tongue__button:hover, .sort .sort__button:hover {
+  background-color: #2814ff;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -27,21 +46,21 @@
 }
 
 .sort {
+  height: 60%;
   justify-self: center;
   align-self: center;
 }
-
 .ruler-block {
   justify-self: end;
   align-self: center;
   display: grid;
   grid-template-columns: repeat(2, auto);
   column-gap: 10px;
+  height: 60%;
 }
-
 .main {
   display: grid;
-  grid-template-rows: repeat(2, auto);
+  grid-template-rows: auto 1fr;
   padding: 1vw 2vw;
 }
 
@@ -65,13 +84,13 @@
 }
 
 .modal-window {
+  display: none;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   background-color: rgba(37, 37, 37, 0.8);
-  display: grid;
 }
 .modal-window .add-task {
   height: 30vw;
@@ -96,6 +115,84 @@
   background-color: #fafafa;
   cursor: pointer;
   justify-self: end;
+}
+.modal-window .add-task .add-task__body .add-task__form .level-task__wrapper, .modal-window .add-task .add-task__body .add-task__form .add-task__label {
+  display: grid;
+  grid-template-columns: 20% 1fr;
+}
+.modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
+  display: grid;
+  grid-template-columns: 5% 1fr;
+}
+.modal-window .add-task .add-task__body {
+  padding: 1vw;
+}
+.modal-window .add-task .add-task__body .add-task__form {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr) 2fr 1fr;
+  row-gap: 2vw;
+}
+.modal-window .add-task .add-task__body .add-task__form .level-task {
+  border: 0;
+}
+.modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__name {
+  width: 20%;
+}
+.modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options {
+  display: grid;
+  row-gap: 1vw;
+}
+.modal-window .add-task .add-task__body .add-task__form .add-task__ruler {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  column-gap: 1vw;
+}
+.modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button {
+  background-color: #737373;
+}
+.modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover {
+  background-color: #505050;
+}
+.modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue {
+  justify-self: start;
+}
+.task {
+  height: 10vw;
+  min-height: 100px;
+  border: 1px solid #e1e1e1;
+  padding: 1vw;
+  display: grid;
+  grid-template-columns: 90% 1fr;
+}
+.task .task__information-block {
+  display: grid;
+  grid-template-rows: 30% 1fr;
+}
+.task .task__information-block .task__header {
+  display: grid;
+  grid-template-columns: 60% repeat(2, 1fr);
+}
+.task .task__information-block .task__header .task__title {
+  font-size: 2vw;
+}
+.task .task__information-block .task__header .task__priority {
+  font-size: 1.5vw;
+}
+.task .task__information-block .task__header .task__data {
+  font-size: 1.5vw;
+}
+.task .task__information-block .task__text {
+  font-size: 1.7vw;
+  overflow-x: auto;
+}
+.task .task__setting {
+  padding: 1vw;
+}
+.task .task__setting .task__button {
+  background-color: #737373;
+}
+.task .task__setting .task__button:hover {
+  background-color: #505050;
 }
 
 /*# sourceMappingURL=style.css.map */
