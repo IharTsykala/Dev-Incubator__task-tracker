@@ -74,12 +74,11 @@ class Model {
   createTask (inputs) {
     let newTask
     if (inputs && inputs[0].value && inputs[1].value) {
-      newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, 'High')
+      const priority = Array.from(inputs).find(item => item.checked)
+      newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
       this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
+      this.view.viewArrayTask(newTask)
     }
-    //  else this.arrayToDoTask = this.arrayToDoTask.concat(new Task(this.idTask++, 'First task', 'Hello', 'High'))
-    console.log(this.arrayToDoTask)
-    this.view.viewArrayTask(newTask)
   }
 
   tongueModalWindow () {

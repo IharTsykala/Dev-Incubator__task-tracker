@@ -23,7 +23,7 @@
             </button>
           </div>
           <div class="add-task__body">
-            <form action="" class="add-task__form">
+            <form action="submit" class="add-task__form">
               <label class="add-task__label" for=""
                 >Title<input
                   class="add-task__input"
@@ -42,12 +42,13 @@
                 <div class="level-task__wrapper">
                   <legend class="level-task__name">Priority</legend>
                   <div class="level-task__options">
-                    <label class="level-task__label" for=""
-                      ><input
+                    <label class="level-task__label" for="">
+                      <input
                         class="level-task__input"
                         type="radio"
                         value="Low"
-                        placeholder="Low"
+                        name="levelPriority"
+                        id="Low"
                       />Low</label
                     >
                     <label class="level-task__label" for="">
@@ -55,6 +56,8 @@
                         class="level-task__input"
                         type="radio"
                         value="Medium"
+                        name="levelPriority"
+                        id="Medium"
                       />Medium</label
                     >
                     <label class="level-task__label" for=""
@@ -62,6 +65,9 @@
                         class="level-task__input"
                         type="radio"
                         value="High"
+                        name="levelPriority"
+                        id="High"
+                        checked
                       />High</label
                     >
                   </div>
