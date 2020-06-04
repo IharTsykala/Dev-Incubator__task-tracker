@@ -5,6 +5,7 @@ class Task {
     this.text = text
     this.priority = priority
     this.data = new Date().toString().slice(0, 25)
+    this.disabled = ''
   }
 
   fillContentTask (task) {
@@ -18,12 +19,28 @@ class Task {
     <p class="task__text">${this.text}</p>
   </div>
   <div class="task__setting">
-    <button class="task__button">***</button>
+    <div class="task__modal">
+      <div class="task__modal-option task__modal-option_complete_green">
+        Complete
+      </div>
+      <div class="task__modal-option task__modal-option_edit_turquoise">
+        Edit
+      </div>
+      <div class="task__modal-option task__modal-option_delete_red">
+        Delete
+      </div>
+    </div>
+    <button id=${this.id} class="task__button" ${this.disabled}>
+      <i class="fas fa-ellipsis-v"></i>
+    </button>
   </div>`)
   }
 
-  viewTask () {
+  viewTask (disabled) {
+    if (disabled) this.disabled = 'disabled'
+    else this.disabled = ''
     this.task = document.createElement('div')
+    this.task.id = this.id
     this.task.className = `task task${this.id}`
     this.task.innerHTML = this.fillContentTask()
     return this.task
@@ -40,7 +57,7 @@ class Controller {
     this.addTaskHederClose = wrapper.querySelector('.add-task__header-close-button')
     this.close = wrapper.querySelector('.close')
     this.addTaskTongue = wrapper.querySelector('.add-task-tongue')
-    this.taskButton = wrapper.querySelector('.task__button')
+    this.toDoArray = wrapper.querySelector('.todo-section__array')
   }
 
   initial () {
@@ -52,10 +69,14 @@ class Controller {
 
     this.addTaskTongue.addEventListener('click', (e) => this.handlerAddTaskTongue(e))
 
-    this.taskButton.addEventListener('click', (e) => this.model.tongueTaskModal('task__button', e))
     this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
 
-    this.model.createTask()
+    this.toDoArray.addEventListener('click', (e) => {
+      this.handleClickTask(e)
+      // this.handleToDoArray(e)
+    })
+
+    // this.model.createTask()
   }
 
   handlerAddTaskTongue (e) {
@@ -66,6 +87,23 @@ class Controller {
       this.model.tongueModalWindow()
       inputs[0].value = ''
       inputs[1].value = ''
+
+      // this initial after create task
+      // this.taskButton = wrapper.querySelector('.task__button')
+      // this.taskButton.addEventListener('click', (e) => this.model.tongueTaskModal('task__button', e))
+      // this.complete = wrapper.querySelector('.task__modal-option_complete_green')
+      // this.complete.addEventListener('click', (e) => this.model.passCompleteTask(e))
+    }
+  }
+
+  handleClickTask (e) {
+    // console.log(e.currentTarget)
+    // this.model.idCurrentClickTask(e.target.id)
+    if (e.target.className === 'task__button') {
+      this.model.setIdCurrentClickTask(e.target.id)
+      this.model.tongueTaskModal('task__button', e)
+    } else if (e.target.classList[1] === 'task__modal-option_complete_green') {
+      this.model.completeTask()
     }
   }
 }
@@ -74,9 +112,10 @@ class Model {
     this.view = view
     this.arrayToDoTask = []
     this.arrayComplectedTask = []
-    this.idTask = 0
+    this.idTask = 1
     this.modalWindow = false
     this.taskModal = false
+    this.idCurrentClickTask = null
   }
 
   createTask (inputs) {
@@ -85,7 +124,7 @@ class Model {
       const newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
       this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
 
-      this.view.viewArrayTask(newTask)
+      this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
     }
   }
 
@@ -94,13 +133,28 @@ class Model {
     this.view.viewModalWindow(this.modalWindow)
   }
 
+  setIdCurrentClickTask (id) {
+    this.idCurrentClickTask = +id
+  }
+
   tongueTaskModal (areaClick, e) {
     if (areaClick === 'task__button') {
       e.stopPropagation()
       this.taskModal = !this.taskModal
-    } else if (areaClick === 'wrapper' && this.taskModal) { this.taskModal = false }
+      this.view.viewTaskModal(this.taskModal)
+    } else if (areaClick === 'wrapper' && this.taskModal) {
+      this.taskModal = false
+      this.view.viewTaskModal(this.taskModal)
+    }
+  }
 
-    this.view.viewTaskModal(this.taskModal)
+  completeTask () {
+    const currentTask = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
+    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
+    this.arrayComplectedTask = this.arrayComplectedTask.concat(currentTask)
+
+    console.log(this.arrayToDoTask, this.arrayComplectedTask)
+    this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
 }
 
@@ -108,12 +162,21 @@ class View {
   constructor (wrapper) {
     this.wrapper = wrapper
     this.arrayToDoTask = wrapper.querySelector('.todo-section__array')
+    this.arrayComplectedTask = wrapper.querySelector('.complected-section__array')
     this.modalWindow = wrapper.querySelector('.modal-window')
-    this.taskModal = wrapper.querySelector('.task__modal')
   }
 
-  viewArrayTask (newTask) {
-    if (newTask) this.arrayToDoTask.append(newTask.viewTask())
+  viewArrayTask (arrayToDo, arrayComplected) {
+    while (this.arrayToDoTask.children.length) {
+      this.arrayToDoTask.children[0].remove()
+    }
+    while (this.arrayComplectedTask.children.length) {
+      this.arrayComplectedTask.children[0].remove()
+    }
+    arrayToDo.map(item => this.arrayToDoTask.append(item.viewTask()))
+    arrayComplected.map(item => this.arrayComplectedTask.append(item.viewTask(true)))
+
+    this.taskModal = this.wrapper.querySelector('.task__modal')
   }
 
   viewModalWindow (booleanValue) {

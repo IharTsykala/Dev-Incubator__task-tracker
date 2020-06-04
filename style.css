@@ -91,6 +91,7 @@
   bottom: 0;
   left: 0;
   background-color: rgba(37, 37, 37, 0.8);
+  z-index: 10;
 }
 .modal-window .add-task {
   height: 30vw;
@@ -213,22 +214,22 @@
   font-size: 1.2vw;
   cursor: pointer;
 }
-.task .task__setting .task__modal .task__modal-option_green {
+.task .task__setting .task__modal .task__modal-option_complete_green {
   background-color: green;
 }
-.task .task__setting .task__modal .task__modal-option_green:hover {
+.task .task__setting .task__modal .task__modal-option_complete_green:hover {
   background-color: #004e00;
 }
-.task .task__setting .task__modal .task__modal-option_turquoise {
+.task .task__setting .task__modal .task__modal-option_edit_turquoise {
   background-color: turquoise;
 }
-.task .task__setting .task__modal .task__modal-option_turquoise:hover {
+.task .task__setting .task__modal .task__modal-option_edit_turquoise:hover {
   background-color: #277a72;
 }
-.task .task__setting .task__modal .task__modal-option_red {
+.task .task__setting .task__modal .task__modal-option_delete_red {
   background-color: red;
 }
-.task .task__setting .task__modal .task__modal-option_red:hover {
+.task .task__setting .task__modal .task__modal-option_delete_red:hover {
   background-color: #8a0000;
 }
 .task .task__setting .task__button {
