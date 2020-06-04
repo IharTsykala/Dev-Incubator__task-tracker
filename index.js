@@ -6,6 +6,7 @@ class Task {
     this.priority = priority
     this.data = new Date().toString().slice(0, 25)
     this.disabled = ''
+    this.display = 'grid'
   }
 
   fillContentTask (task) {
@@ -30,17 +31,22 @@ class Task {
         Delete
       </div>
     </div>
-    <button id=${this.id} class="task__button" ${this.disabled}>
+    <button id=${this.id} class="task__button" style="display:${this.display}">
       <i class="fas fa-ellipsis-v"></i>
     </button>
   </div>`)
   }
 
   viewTask (disabled) {
-    if (disabled) this.disabled = 'disabled'
-    else this.disabled = ''
+    if (disabled) {
+      this.display = 'none'
+      this.disabled = 'disabled'
+    } else {
+      this.display = 'grid'
+      this.disabled = ''
+    }
     this.task = document.createElement('div')
-    this.task.className = `task task${this.id}`
+    this.task.className = `task task${this.id} task_${this.disabled}`
     this.task.innerHTML = this.fillContentTask()
     return this.task
   }
@@ -185,7 +191,6 @@ class View {
   }
 
   viewArrayTask (arrayToDo, arrayComplected) {
-    console.log(arrayToDo, arrayComplected)
     while (this.arrayToDoTask.children.length) {
       this.arrayToDoTask.children[0].remove()
     }

@@ -239,4 +239,8 @@
   background-color: #505050;
 }
 
+.task_disabled {
+  opacity: 0.5;
+}
+
 /*# sourceMappingURL=style.css.map */
