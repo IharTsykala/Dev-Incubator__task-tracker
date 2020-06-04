@@ -90,7 +90,8 @@ class Controller {
     this.modalWindow.addEventListener('click', () => this.model.tongueModalWindow())
     this.addTask.addEventListener('click', (e) => e.stopPropagation())
     this.addTaskHederClose.addEventListener('click', () => this.model.tongueModalWindow())
-    this.close.addEventListener('click', () => this.model.tongueModalWindow())````// Modal window add task or Edit
+    // Modal window add task or Edit
+    this.close.addEventListener('click', () => this.model.tongueModalWindow())
     this.addTaskTongue.addEventListener('click', (e) => this.handlerAddTaskTongue(e))
     // close modal for button in the task
     this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
@@ -205,6 +206,7 @@ class Model {
   }
 
   setSortUpDate () {
+    console.log(1)
     this.arrayToDoTask = this.arrayToDoTask.sort((a, b) => a.getDate > b.getDate ? 1 : -1)
 
     this.view.viewArrayTask(this.arrayToDoTask)
