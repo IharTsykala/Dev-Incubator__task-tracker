@@ -40,10 +40,13 @@ class Task {
     if (disabled) this.disabled = 'disabled'
     else this.disabled = ''
     this.task = document.createElement('div')
-    this.task.id = this.id
     this.task.className = `task task${this.id}`
     this.task.innerHTML = this.fillContentTask()
     return this.task
+  }
+
+  removeTask () {
+    delete this.task
   }
 }
 
@@ -71,10 +74,7 @@ class Controller {
 
     this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
 
-    this.toDoArray.addEventListener('click', (e) => {
-      this.handleClickTask(e)
-      // this.handleToDoArray(e)
-    })
+    this.toDoArray.addEventListener('click', (e) => this.handleClickTask(e))
 
     // this.model.createTask()
   }
@@ -87,23 +87,19 @@ class Controller {
       this.model.tongueModalWindow()
       inputs[0].value = ''
       inputs[1].value = ''
-
-      // this initial after create task
-      // this.taskButton = wrapper.querySelector('.task__button')
-      // this.taskButton.addEventListener('click', (e) => this.model.tongueTaskModal('task__button', e))
-      // this.complete = wrapper.querySelector('.task__modal-option_complete_green')
-      // this.complete.addEventListener('click', (e) => this.model.passCompleteTask(e))
     }
   }
 
   handleClickTask (e) {
-    // console.log(e.currentTarget)
-    // this.model.idCurrentClickTask(e.target.id)
     if (e.target.className === 'task__button') {
       this.model.setIdCurrentClickTask(e.target.id)
       this.model.tongueTaskModal('task__button', e)
     } else if (e.target.classList[1] === 'task__modal-option_complete_green') {
       this.model.completeTask()
+    } else if (e.target.classList[1] === 'task__modal-option_edit_turquoise') {
+      this.model.editTask(this.addTask.querySelectorAll('input'))
+    } else if (e.target.classList[1] === 'task__modal-option_delete_red') {
+      this.model.removeTask()
     }
   }
 }
@@ -114,6 +110,7 @@ class Model {
     this.arrayComplectedTask = []
     this.idTask = 1
     this.modalWindow = false
+    this.modalWindowForEdit = false
     this.taskModal = false
     this.idCurrentClickTask = null
   }
@@ -148,12 +145,33 @@ class Model {
     }
   }
 
-  completeTask () {
-    const currentTask = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
+  findAmdFilterTasks () {
+    const task = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
     this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
-    this.arrayComplectedTask = this.arrayComplectedTask.concat(currentTask)
+    return task
+  }
 
-    console.log(this.arrayToDoTask, this.arrayComplectedTask)
+  completeTask () {
+    const currentTask = this.findAmdFilterTasks()
+
+    this.arrayComplectedTask = this.arrayComplectedTask.concat(currentTask)
+    this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
+  }
+
+  editTask (inputs) {
+    const currentTask = this.findAmdFilterTasks()
+
+    this.tongueModalWindow()
+    inputs[0].value = currentTask.title
+    inputs[1].value = currentTask.text
+    for (const input of inputs) {
+      if (input.value === currentTask.priority) input.checked = true
+    }
+  }
+
+  removeTask () {
+    this.findAmdFilterTasks()
+
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
 }
@@ -167,26 +185,30 @@ class View {
   }
 
   viewArrayTask (arrayToDo, arrayComplected) {
+    console.log(arrayToDo, arrayComplected)
     while (this.arrayToDoTask.children.length) {
       this.arrayToDoTask.children[0].remove()
     }
     while (this.arrayComplectedTask.children.length) {
       this.arrayComplectedTask.children[0].remove()
     }
-    arrayToDo.map(item => this.arrayToDoTask.append(item.viewTask()))
+    arrayToDo.forEach(item => this.arrayToDoTask.append(item.viewTask()))
     arrayComplected.map(item => this.arrayComplectedTask.append(item.viewTask(true)))
 
     this.taskModal = this.wrapper.querySelector('.task__modal')
   }
 
   viewModalWindow (booleanValue) {
+    console.log(this.modalWindow)
     if (booleanValue) this.modalWindow.style.display = 'grid'
     else this.modalWindow.style.display = ''
   }
 
   viewTaskModal (booleanValue) {
-    if (booleanValue) this.taskModal.style.display = 'grid'
-    else this.taskModal.style.display = ''
+    if (this.taskModal) {
+      if (booleanValue) this.taskModal.style.display = 'grid'
+      else this.taskModal.style.display = ''
+    }
   }
 }
 
