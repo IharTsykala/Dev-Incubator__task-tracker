@@ -1,13 +1,15 @@
 class Task {
-  constructor (id, title, text, priority) {
+  constructor (id, title, text, priority, data) {
     this.id = id
     this.title = title
     this.text = text
     this.priority = priority
-    this.data = new Date().toString().slice(0, 25)
+    this.data = data || this.createData()
+    this.getTime = new Date().getTime()
     this.disabled = ''
     this.display = 'grid'
   }
+  // new Date().toString().slice(0, 25)
 
   fillContentTask (task) {
     return (
@@ -35,6 +37,17 @@ class Task {
       <i class="fas fa-ellipsis-v"></i>
     </button>
   </div>`)
+  }
+
+  createData () {
+    const hours = new Date().getHours()
+    const minutes = new Date().getMinutes()
+    let day = new Date().getDate() + ''
+    let mount = new Date().getMonth() + 1 + ''
+    const year = new Date().getUTCFullYear()
+    if (day.length === 1) day = '0' + day
+    if (mount.length === 1) mount = '0' + mount
+    return `${hours}:${minutes} ${day}:${mount}:${year}`
   }
 
   viewTask (disabled) {
@@ -119,16 +132,25 @@ class Model {
     this.modalWindowForEdit = false
     this.taskModal = false
     this.idCurrentClickTask = null
+    this.currentClickTask = null
   }
 
   createTask (inputs) {
     if (inputs && inputs[0].value && inputs[1].value) {
       const priority = Array.from(inputs).find(item => item.checked)
-      const newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
-      this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
-
+      // Edit exist task
+      if (this.modalWindowForEdit) {
+        this.currentClickTask.title = inputs[0].value
+        this.currentClickTask.text = inputs[1].value
+        this.currentClickTask.priority = priority.value
+      } else {
+        // add new task
+        const newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
+        this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
+      }
       this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
     }
+    this.modalWindowForEdit = false
   }
 
   tongueModalWindow () {
@@ -138,6 +160,7 @@ class Model {
 
   setIdCurrentClickTask (id) {
     this.idCurrentClickTask = +id
+    this.currentClickTask = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
   }
 
   tongueTaskModal (areaClick, e) {
@@ -152,31 +175,29 @@ class Model {
   }
 
   findAmdFilterTasks () {
-    const task = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
-    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
-    return task
+    // this.currentClickTask = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
+    // this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
   }
 
   completeTask () {
-    const currentTask = this.findAmdFilterTasks()
-
-    this.arrayComplectedTask = this.arrayComplectedTask.concat(currentTask)
+    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
+    this.arrayComplectedTask = this.arrayComplectedTask.concat(this.currentClickTask)
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
 
   editTask (inputs) {
-    const currentTask = this.findAmdFilterTasks()
+    this.modalWindowForEdit = true  
 
     this.tongueModalWindow()
-    inputs[0].value = currentTask.title
-    inputs[1].value = currentTask.text
+    inputs[0].value = this.currentClickTask.title
+    inputs[1].value = this.currentClickTask.text
     for (const input of inputs) {
-      if (input.value === currentTask.priority) input.checked = true
+      if (input.value === this.currentClickTask.priority) input.checked = true
     }
   }
 
   removeTask () {
-    this.findAmdFilterTasks()
+    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
 
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
@@ -204,7 +225,6 @@ class View {
   }
 
   viewModalWindow (booleanValue) {
-    console.log(this.modalWindow)
     if (booleanValue) this.modalWindow.style.display = 'grid'
     else this.modalWindow.style.display = ''
   }
