@@ -83,16 +83,16 @@ class Controller {
   }
 
   initial () {
+    // modal window
     this.addTaskWrapper.addEventListener('click', () => this.model.tongueModalWindow())
     this.modalWindow.addEventListener('click', () => this.model.tongueModalWindow())
     this.addTask.addEventListener('click', (e) => e.stopPropagation())
     this.addTaskHederClose.addEventListener('click', () => this.model.tongueModalWindow())
-    this.close.addEventListener('click', () => this.model.tongueModalWindow())
-
+    this.close.addEventListener('click', () => this.model.tongueModalWindow())````// Modal window add task or Edit
     this.addTaskTongue.addEventListener('click', (e) => this.handlerAddTaskTongue(e))
-
+    // close modal for button in the task
     this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
-
+    // click on task with handler jn parent
     this.toDoArray.addEventListener('click', (e) => this.handleClickTask(e))
 
     // this.model.createTask()
@@ -111,7 +111,7 @@ class Controller {
 
   handleClickTask (e) {
     if (e.target.className === 'task__button') {
-      this.model.setIdCurrentClickTask(e.target.id)
+      this.model.setCurrentClickTask(e.target.id)
       this.model.tongueTaskModal('task__button', e)
     } else if (e.target.classList[1] === 'task__modal-option_complete_green') {
       this.model.completeTask()
@@ -131,7 +131,6 @@ class Model {
     this.modalWindow = false
     this.modalWindowForEdit = false
     this.taskModal = false
-    this.idCurrentClickTask = null
     this.currentClickTask = null
   }
 
@@ -158,35 +157,31 @@ class Model {
     this.view.viewModalWindow(this.modalWindow)
   }
 
-  setIdCurrentClickTask (id) {
-    this.idCurrentClickTask = +id
-    this.currentClickTask = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
+  setCurrentClickTask (id) {
+    this.currentClickTask = this.arrayToDoTask.find(item => item.id === id)
   }
 
   tongueTaskModal (areaClick, e) {
+    // click only button
     if (areaClick === 'task__button') {
       e.stopPropagation()
       this.taskModal = !this.taskModal
       this.view.viewTaskModal(this.taskModal)
+      // click on wrapper, but not button
     } else if (areaClick === 'wrapper' && this.taskModal) {
       this.taskModal = false
       this.view.viewTaskModal(this.taskModal)
     }
   }
 
-  findAmdFilterTasks () {
-    // this.currentClickTask = this.arrayToDoTask.find(item => item.id === this.idCurrentClickTask)
-    // this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
-  }
-
   completeTask () {
-    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
+    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.currentClickTask.id)
     this.arrayComplectedTask = this.arrayComplectedTask.concat(this.currentClickTask)
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
 
   editTask (inputs) {
-    this.modalWindowForEdit = true  
+    this.modalWindowForEdit = true
 
     this.tongueModalWindow()
     inputs[0].value = this.currentClickTask.title
@@ -197,7 +192,7 @@ class Model {
   }
 
   removeTask () {
-    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.idCurrentClickTask)
+    this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.currentClickTask.id)
 
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
@@ -212,15 +207,18 @@ class View {
   }
 
   viewArrayTask (arrayToDo, arrayComplected) {
+    // clear DOM
     while (this.arrayToDoTask.children.length) {
       this.arrayToDoTask.children[0].remove()
     }
     while (this.arrayComplectedTask.children.length) {
       this.arrayComplectedTask.children[0].remove()
     }
+    // render arrays in DOM
     arrayToDo.forEach(item => this.arrayToDoTask.append(item.viewTask()))
     arrayComplected.map(item => this.arrayComplectedTask.append(item.viewTask(true)))
 
+    // taskModel had created
     this.taskModal = this.wrapper.querySelector('.task__modal')
   }
 
