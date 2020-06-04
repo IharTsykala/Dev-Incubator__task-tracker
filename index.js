@@ -8,10 +8,10 @@ class Task {
     this.getTime = new Date().getTime()
     this.disabled = ''
     this.display = 'grid'
+    this.colorTask = 'red'
   }
-  // new Date().toString().slice(0, 25)
 
-  fillContentTask (task) {
+  fillContentTask () {
     return (
   `<div class="task__information-block">
     <div class="task__header">
@@ -40,14 +40,24 @@ class Task {
   }
 
   createData () {
-    const hours = new Date().getHours()
-    const minutes = new Date().getMinutes()
+    let hours = new Date().getHours() + ''
+    let minutes = new Date().getMinutes() + ''
     let day = new Date().getDate() + ''
     let mount = new Date().getMonth() + 1 + ''
     const year = new Date().getUTCFullYear()
+    if (hours.length === 1) hours = '0' + hours
+    if (minutes.length === 1) minutes = '0' + minutes
     if (day.length === 1) day = '0' + day
     if (mount.length === 1) mount = '0' + mount
     return `${hours}:${minutes} ${day}:${mount}:${year}`
+  }
+
+  setColorTask (priority) {
+    switch (priority) {
+      case 'Low': return 'green'
+      case 'Medium': return 'yellow'
+      default: return 'red'
+    }
   }
 
   viewTask (disabled) {
@@ -58,8 +68,9 @@ class Task {
       this.display = 'grid'
       this.disabled = ''
     }
+    this.colorTask = this.setColorTask(this.priority)
     this.task = document.createElement('div')
-    this.task.className = `task task${this.id} task_${this.disabled}`
+    this.task.className = `task task${this.id} task_${this.colorTask} task_${this.disabled}`
     this.task.innerHTML = this.fillContentTask()
     return this.task
   }
@@ -164,7 +175,7 @@ class Model {
   }
 
   setCurrentClickTask (id) {
-    this.currentClickTask = this.arrayToDoTask.find(item => item.id === id)
+    this.currentClickTask = this.arrayToDoTask.find(item => item.id === +id)
   }
 
   tongueTaskModal (areaClick, e) {
@@ -188,6 +199,8 @@ class Model {
   }
 
   editTask (inputs) {
+    console.log(this.currentClickTask)
+
     this.modalWindowForEdit = true
 
     this.tongueModalWindow()

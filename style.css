@@ -243,4 +243,16 @@
   opacity: 0.5;
 }
 
+.task_red {
+  color: red;
+}
+
+.task_yellow {
+  color: yellow;
+}
+
+.task_green {
+  color: green;
+}
+
 /*# sourceMappingURL=style.css.map */
