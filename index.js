@@ -80,6 +80,8 @@ class Controller {
     this.close = wrapper.querySelector('.close')
     this.addTaskTongue = wrapper.querySelector('.add-task-tongue')
     this.toDoArray = wrapper.querySelector('.todo-section__array')
+    this.sortUpButton = wrapper.querySelector('.sort__button_up')
+    this.sortDownButton = wrapper.querySelector('.sort__button_down')
   }
 
   initial () {
@@ -94,6 +96,9 @@ class Controller {
     this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
     // click on task with handler jn parent
     this.toDoArray.addEventListener('click', (e) => this.handleClickTask(e))
+    // sort
+    this.sortUpButton.addEventListener('click', () => this.model.setSortUpDate())
+    this.sortDownButton.addEventListener('click', () => this.model.setSortUpDate())
 
     // this.model.createTask()
   }
@@ -177,6 +182,7 @@ class Model {
   completeTask () {
     this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.currentClickTask.id)
     this.arrayComplectedTask = this.arrayComplectedTask.concat(this.currentClickTask)
+
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
 
@@ -184,6 +190,7 @@ class Model {
     this.modalWindowForEdit = true
 
     this.tongueModalWindow()
+
     inputs[0].value = this.currentClickTask.title
     inputs[1].value = this.currentClickTask.text
     for (const input of inputs) {
@@ -194,7 +201,19 @@ class Model {
   removeTask () {
     this.arrayToDoTask = this.arrayToDoTask.filter(item => item.id !== this.currentClickTask.id)
 
-    this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
+    this.view.viewArrayTask(this.arrayToDoTask)
+  }
+
+  setSortUpDate () {
+    this.arrayToDoTask = this.arrayToDoTask.sort((a, b) => a.getDate > b.getDate ? 1 : -1)
+
+    this.view.viewArrayTask(this.arrayToDoTask)
+  }
+
+  setSortDownDate () {
+    this.arrayToDoTask = this.arrayToDoTask.sort((a, b) => a.getDate < b.getDate ? 1 : -1)
+
+    this.view.viewArrayTask(this.arrayToDoTask)
   }
 }
 
@@ -211,13 +230,15 @@ class View {
     while (this.arrayToDoTask.children.length) {
       this.arrayToDoTask.children[0].remove()
     }
-    while (this.arrayComplectedTask.children.length) {
-      this.arrayComplectedTask.children[0].remove()
-    }
     // render arrays in DOM
     arrayToDo.forEach(item => this.arrayToDoTask.append(item.viewTask()))
-    arrayComplected.map(item => this.arrayComplectedTask.append(item.viewTask(true)))
-
+    // same if task completed
+    if (arrayComplected) {
+      while (this.arrayComplectedTask.children.length) {
+        this.arrayComplectedTask.children[0].remove()
+      }
+      arrayComplected.map(item => this.arrayComplectedTask.append(item.viewTask(true)))
+    }
     // taskModel had created
     this.taskModal = this.wrapper.querySelector('.task__modal')
   }
