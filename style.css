@@ -190,12 +190,12 @@
   padding: 1vw;
 }
 .task .task__setting .task__modal {
+  display: none;
   position: absolute;
   width: 10vw;
   height: 10vw;
   background-color: #fafafa;
   left: -9vw;
-  display: grid;
   row-gap: 1vw;
   border: 1px solid #252525;
   border-radius: 3%;

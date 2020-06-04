@@ -245,12 +245,12 @@ $middlePadding: 2vw;
     @extend %base-button__container;
     padding: $smallPadding;
     .task__modal {
+      display: none;
       position: absolute;
       width: 10vw;
       height: 10vw;
       background-color: $backgroundLight;
       left: -9vw;
-      display: grid;
       row-gap: $smallPadding;
       border: 1px solid $backgroundDark;
       border-radius: 3%;

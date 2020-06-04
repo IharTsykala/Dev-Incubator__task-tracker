@@ -33,12 +33,14 @@ class Task {
 class Controller {
   constructor (model, wrapper) {
     this.model = model
+    this.wrapper = wrapper
     this.addTaskWrapper = wrapper.querySelector('.add-task-wrapper')
     this.modalWindow = wrapper.querySelector('.modal-window')
     this.addTask = wrapper.querySelector('.add-task')
     this.addTaskHederClose = wrapper.querySelector('.add-task__header-close-button')
     this.close = wrapper.querySelector('.close')
     this.addTaskTongue = wrapper.querySelector('.add-task-tongue')
+    this.taskButton = wrapper.querySelector('.task__button')
   }
 
   initial () {
@@ -49,6 +51,9 @@ class Controller {
     this.close.addEventListener('click', () => this.model.tongueModalWindow())
 
     this.addTaskTongue.addEventListener('click', (e) => this.handlerAddTaskTongue(e))
+
+    this.taskButton.addEventListener('click', (e) => this.model.tongueTaskModal('task__button', e))
+    this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
 
     this.model.createTask()
   }
@@ -71,6 +76,7 @@ class Model {
     this.arrayComplectedTask = []
     this.idTask = 0
     this.modalWindow = false
+    this.taskModal = false
   }
 
   createTask (inputs) {
@@ -78,6 +84,7 @@ class Model {
       const priority = Array.from(inputs).find(item => item.checked)
       const newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
       this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
+
       this.view.viewArrayTask(newTask)
     }
   }
@@ -86,6 +93,15 @@ class Model {
     this.modalWindow = !this.modalWindow
     this.view.viewModalWindow(this.modalWindow)
   }
+
+  tongueTaskModal (areaClick, e) {
+    if (areaClick === 'task__button') {
+      e.stopPropagation()
+      this.taskModal = !this.taskModal
+    } else if (areaClick === 'wrapper' && this.taskModal) { this.taskModal = false }
+
+    this.view.viewTaskModal(this.taskModal)
+  }
 }
 
 class View {
@@ -93,16 +109,21 @@ class View {
     this.wrapper = wrapper
     this.arrayToDoTask = wrapper.querySelector('.todo-section__array')
     this.modalWindow = wrapper.querySelector('.modal-window')
+    this.taskModal = wrapper.querySelector('.task__modal')
   }
 
   viewArrayTask (newTask) {
-    // console.log(this.arrayToDoTask.children[0])
     if (newTask) this.arrayToDoTask.append(newTask.viewTask())
   }
 
   viewModalWindow (booleanValue) {
     if (booleanValue) this.modalWindow.style.display = 'grid'
     else this.modalWindow.style.display = ''
+  }
+
+  viewTaskModal (booleanValue) {
+    if (booleanValue) this.taskModal.style.display = 'grid'
+    else this.taskModal.style.display = ''
   }
 }
 
@@ -111,5 +132,4 @@ const view = new View(wrapper)
 const model = new Model(view)
 const controller = new Controller(model, wrapper)
 
-// view.start()
 controller.initial()
