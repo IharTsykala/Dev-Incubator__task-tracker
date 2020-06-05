@@ -295,7 +295,6 @@ class View {
   }
 
   viewArrayTask (arrayToDo, arrayComplected) {
-    console.log(Array.isArray(arrayToDo))
     // clear DOM
     if (arrayToDo.length) {
       while (this.arrayToDoTask.children.length) {
@@ -305,7 +304,7 @@ class View {
       arrayToDo.forEach(item => this.arrayToDoTask.append(item.viewTask()))
     }
     // same if task completed
-    if (arrayComplected.length) {
+    if (arrayComplected) {
       while (this.arrayComplectedTask.children.length) {
         this.arrayComplectedTask.children[0].remove()
       }
@@ -315,8 +314,8 @@ class View {
     this.taskModal = this.wrapper.querySelector('.task__modal')
 
     // amount tasks
-    this.writeToDoTask(arrayToDo.length)
-    this.writeCompletedTask(arrayComplected.length)
+    if (arrayToDo) { this.writeToDoTask(arrayToDo.length) }
+    if (arrayComplected) { this.writeCompletedTask(arrayComplected.length) }
 
     // localStorage
     this.setTasksLocalStorage(arrayToDo, arrayComplected)
