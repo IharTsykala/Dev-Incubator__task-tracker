@@ -63,14 +63,18 @@
 }
 .ruler-block .setting .setting__modal-window {
   position: absolute;
-  width: 20vw;
+  width: 30vw;
   height: 5vw;
-  left: -15vw;
+  left: -25vw;
   border-radius: 5%;
   border: 3px solid #fafafa;
   display: none;
   justify-content: center;
-  align-content: end;
+  align-content: center;
+  font-size: 1.5vw;
+}
+.ruler-block .setting .setting__modal-window .color-toggle-name {
+  font-size: 2vw;
 }
 
 .main {
