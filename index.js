@@ -1,14 +1,14 @@
 class Task {
-  constructor (id, title, text, priority, data) {
+  constructor (id, title, text, priority, data, getTime, disabled, display, colorTask) {
     this.id = id
     this.title = title
     this.text = text
     this.priority = priority
     this.data = data || this.createData()
-    this.getTime = new Date().getTime()
-    this.disabled = ''
-    this.display = 'grid'
-    this.colorTask = 'red'
+    this.getTime = getTime || new Date().getTime()
+    this.disabled = disabled || ''
+    this.display = display || 'grid'
+    this.colorTask = colorTask || 'red'
   }
 
   fillContentTask () {
@@ -117,7 +117,7 @@ class Controller {
     this.buttonSetting.addEventListener('click', () => this.model.setStateSettingModal())
     this.themeToggle.addEventListener('click', (e) => this.handleChooseTheme(e))
 
-    // this.model.createTask()
+    this.getTaskLocalStorage()
   }
 
   handlerAddTaskToggle (e) {
@@ -125,7 +125,7 @@ class Controller {
     const inputs = this.addTask.querySelectorAll('input')
     if (inputs[0].value && inputs[1].value) {
       this.model.createTask(inputs)
-      this.model.ToggleModalWindow()
+      this.model.toggleModalWindow()
       inputs[0].value = ''
       inputs[1].value = ''
     }
@@ -134,7 +134,7 @@ class Controller {
   handleClickTask (e) {
     if (e.target.className === 'task__button') {
       this.model.setCurrentClickTask(e.target.id)
-      this.model.ToggleTaskModal('task__button', e)
+      this.model.toggleTaskModal('task__button', e)
     } else if (e.target.classList[1] === 'task__modal-option_complete_green') {
       this.model.completeTask()
     } else if (e.target.classList[1] === 'task__modal-option_edit_turquoise') {
@@ -146,6 +146,11 @@ class Controller {
 
   handleChooseTheme (e) {
     if (e.target.value) this.model.setColorTheme(e.target.value)
+  }
+
+  getTaskLocalStorage () {
+    const inputs = this.themeToggle.querySelectorAll('input')
+    this.model.getTaskLocalStorage(inputs)
   }
 }
 class Model {
@@ -162,6 +167,28 @@ class Model {
     this.colorTheme = 'white'
   }
 
+  getTaskLocalStorage (inputs) {
+    // tasks
+    if (Array.isArray(JSON.parse(localStorage.getItem('arrayToDo'))) && Array.isArray(JSON.parse(localStorage.getItem('arrayComplected')))) {
+      this.arrayToDoTask = JSON.parse(localStorage.getItem('arrayToDo'))
+      this.arrayComplectedTask = JSON.parse(localStorage.getItem('arrayComplected'))
+      this.arrayToDoTask = this.arrayToDoTask.map(item =>
+        new Task(item.id, item.title, item.text, item.priority, item.data, item.getTime, item.disabled, item.display, item.colorTask))
+      this.arrayComplectedTask = this.arrayComplectedTask.map(item =>
+        new Task(item.id, item.title, item.text, item.priority, item.data, item.getTime, item.disabled, item.display, item.colorTask))
+    }
+
+    this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
+
+    // color theme
+    const colorTheme = localStorage.getItem('colorTheme') || 'white'
+
+    for (const input of inputs) {
+      if (input.value === this.colorTheme) input.checked = true
+    }
+    this.setColorTheme(colorTheme)
+  }
+
   createTask (inputs) {
     if (inputs && inputs[0].value && inputs[1].value) {
       const priority = Array.from(inputs).find(item => item.checked)
@@ -175,6 +202,7 @@ class Model {
         const newTask = new Task(this.idTask++, inputs[0].value, inputs[1].value, priority.value)
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
       }
+      console.log(this.arrayToDoTask, this.arrayComplectedTask)
       this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
     }
     this.modalWindowForEdit = false
@@ -220,11 +248,9 @@ class Model {
   }
 
   editTask (inputs) {
-    console.log(this.currentClickTask)
-
     this.modalWindowForEdit = true
 
-    this.ToggleModalWindow()
+    this.toggleModalWindow()
 
     inputs[0].value = this.currentClickTask.title
     inputs[1].value = this.currentClickTask.text
@@ -251,7 +277,6 @@ class Model {
     this.view.viewArrayTask(this.arrayToDoTask)
   }
 }
-
 class View {
   constructor (wrapper) {
     this.wrapper = wrapper
@@ -260,17 +285,27 @@ class View {
     this.modalWindow = wrapper.querySelector('.modal-window')
     this.settingModal = wrapper.querySelector('.setting__modal-window')
     this.navbar = wrapper.querySelector('.navbar')
+    this.toDoSectionHeader = wrapper.querySelector('.todo-section__header')
+    this.complectedSectionHeader = wrapper.querySelector('.complected-section__header')
+  }
+
+  initial () {
+    this.writeToDoTask(0)
+    this.writeCompletedTask(0)
   }
 
   viewArrayTask (arrayToDo, arrayComplected) {
+    console.log(Array.isArray(arrayToDo))
     // clear DOM
-    while (this.arrayToDoTask.children.length) {
-      this.arrayToDoTask.children[0].remove()
+    if (arrayToDo.length) {
+      while (this.arrayToDoTask.children.length) {
+        this.arrayToDoTask.children[0].remove()
+      }
+      // render arrays in DOM
+      arrayToDo.forEach(item => this.arrayToDoTask.append(item.viewTask()))
     }
-    // render arrays in DOM
-    arrayToDo.forEach(item => this.arrayToDoTask.append(item.viewTask()))
     // same if task completed
-    if (arrayComplected) {
+    if (arrayComplected.length) {
       while (this.arrayComplectedTask.children.length) {
         this.arrayComplectedTask.children[0].remove()
       }
@@ -278,6 +313,28 @@ class View {
     }
     // taskModel had created
     this.taskModal = this.wrapper.querySelector('.task__modal')
+
+    // amount tasks
+    this.writeToDoTask(arrayToDo.length)
+    this.writeCompletedTask(arrayComplected.length)
+
+    // localStorage
+    this.setTasksLocalStorage(arrayToDo, arrayComplected)
+  }
+
+  writeToDoTask (amountTask) {
+    this.toDoSectionHeader.textContent =
+     this.toDoSectionHeader.textContent.slice(0, 4) + ` (${amountTask})`
+  }
+
+  writeCompletedTask (amountTask) {
+    this.complectedSectionHeader.textContent =
+      this.complectedSectionHeader.textContent.slice(0, 10) + ` (${amountTask})`
+  }
+
+  setTasksLocalStorage (arrayToDo, arrayComplected) {
+    localStorage.setItem('arrayToDo', JSON.stringify(arrayToDo))
+    if (arrayComplected) localStorage.setItem('arrayComplected', JSON.stringify(arrayComplected))
   }
 
   setColorTheme (color) {
@@ -286,6 +343,8 @@ class View {
 
     if (this.navbar.classList[1]) this.navbar.classList.remove(this.navbar.classList[1])
     this.navbar.classList.add(`navbar__theme_${color}`)
+
+    localStorage.setItem('colorTheme', color)
   }
 
   checkBoolean (booleanValue, modalWindow) {
@@ -313,4 +372,5 @@ const view = new View(wrapper)
 const model = new Model(view)
 const controller = new Controller(model, wrapper)
 
+view.initial()
 controller.initial()
