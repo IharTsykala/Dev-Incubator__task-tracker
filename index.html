@@ -77,8 +77,8 @@
                 <div class="close">
                   <button class="close__button">Close</button>
                 </div>
-                <div class="add-task-tongue">
-                  <button class="add-task-tongue__button">Add task</button>
+                <div class="add-task-toggle">
+                  <button class="add-task-toggle__button">Add task</button>
                 </div>
               </div>
             </form>
@@ -97,6 +97,39 @@
           </div>
           <div class="setting">
             <button class="setting__button">menu</button>
+            <div class="setting__modal-window">
+              <legend class="color-toggle-name">Choose color theme</legend>
+              <div class="color-theme-toggle__options">
+                <label class="color-theme-toggle__label" for="">
+                  <input
+                    class="color-theme-toggle__input"
+                    type="radio"
+                    value="white"
+                    name="colorTheme"
+                    id="grey"
+                    checked
+                  />White</label
+                >
+                <label class="color-theme-toggle__label" for="">
+                  <input
+                    class="color-theme-toggle__input"
+                    type="radio"
+                    value="grey"
+                    name="colorTheme"
+                    id="grey"
+                  />Grey</label
+                >
+                <label class="color-theme-toggle__label" for=""
+                  ><input
+                    class="color-theme-toggle__input"
+                    type="radio"
+                    value="black"
+                    name="colorTheme"
+                    id="black"
+                  />Black</label
+                >
+              </div>
+            </div>
           </div>
         </div>
       </nav>

@@ -83,8 +83,20 @@ $middlePadding: 2vw;
   }
   .setting {
     @extend %base-button__container;
+    position: relative;
     .setting__button {
       @extend %base-button__inside;
+    }
+    .setting__modal-window {
+      position: absolute;
+      width: 20vw;
+      height: 5vw;
+      left: -15vw;
+      border-radius: 5%;
+      border: 3px solid $backgroundLight;
+      display: none;
+      justify-content: center;
+      align-content: end;
     }
   }
 }
@@ -200,10 +212,10 @@ $middlePadding: 2vw;
               }
             }
           }
-          .add-task-tongue {
+          .add-task-toggle {
             @extend %base-button__container;
             justify-self: start;
-            .add-task-tongue__button {
+            .add-task-toggle__button {
               @extend %base-button__inside;
             }
           }
@@ -311,4 +323,46 @@ $middlePadding: 2vw;
 
 .task_green {
   color: green;
+}
+
+%base-theme_white {
+  background-color: white;
+  color: black;
+}
+
+%base-theme_grey {
+  background-color: grey;
+  color: black;
+}
+
+%base-theme_black {
+  background-color: black;
+  color: white;
+}
+
+.wrapper__theme_white {
+  @extend %base-theme_white;
+}
+
+.wrapper__theme_grey {
+  @extend %base-theme_grey;
+}
+
+.wrapper__theme_black {
+  @extend %base-theme_black;
+}
+
+.navbar__theme_white {
+  @extend %base-theme_white;
+  background-color: $backgroundLight;
+}
+
+.navbar__theme_grey {
+  @extend %base-theme_grey;
+  background-color: $backgroundLight;
+}
+
+.navbar__theme_black {
+  @extend %base-theme_black;
+  background-color: $backgroundDark;
 }

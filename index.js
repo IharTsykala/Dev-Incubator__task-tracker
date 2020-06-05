@@ -89,38 +89,43 @@ class Controller {
     this.addTask = wrapper.querySelector('.add-task')
     this.addTaskHederClose = wrapper.querySelector('.add-task__header-close-button')
     this.close = wrapper.querySelector('.close')
-    this.addTaskTongue = wrapper.querySelector('.add-task-tongue')
+    this.addTaskToggle = wrapper.querySelector('.add-task-toggle')
     this.toDoArray = wrapper.querySelector('.todo-section__array')
     this.sortUpButton = wrapper.querySelector('.sort__button_up')
     this.sortDownButton = wrapper.querySelector('.sort__button_down')
+    this.buttonSetting = wrapper.querySelector('.setting__button')
+    this.themeToggle = wrapper.querySelector('.color-theme-toggle__options')
   }
 
   initial () {
     // modal window
-    this.addTaskWrapper.addEventListener('click', () => this.model.tongueModalWindow())
-    this.modalWindow.addEventListener('click', () => this.model.tongueModalWindow())
+    this.addTaskWrapper.addEventListener('click', () => this.model.toggleModalWindow())
+    this.modalWindow.addEventListener('click', () => this.model.toggleModalWindow())
     this.addTask.addEventListener('click', (e) => e.stopPropagation())
-    this.addTaskHederClose.addEventListener('click', () => this.model.tongueModalWindow())
+    this.addTaskHederClose.addEventListener('click', () => this.model.toggleModalWindow())
     // Modal window add task or Edit
-    this.close.addEventListener('click', () => this.model.tongueModalWindow())
-    this.addTaskTongue.addEventListener('click', (e) => this.handlerAddTaskTongue(e))
+    this.close.addEventListener('click', () => this.model.toggleModalWindow())
+    this.addTaskToggle.addEventListener('click', (e) => this.handlerAddTaskToggle(e))
     // close modal for button in the task
-    this.wrapper.addEventListener('click', (e) => this.model.tongueTaskModal('wrapper', e))
-    // click on task with handler jn parent
+    this.wrapper.addEventListener('click', (e) => this.model.toggleTaskModal('wrapper', e))
+    // click on task with handler on parent
     this.toDoArray.addEventListener('click', (e) => this.handleClickTask(e))
     // sort
     this.sortUpButton.addEventListener('click', () => this.model.setSortUpDate())
     this.sortDownButton.addEventListener('click', () => this.model.setSortUpDate())
+    // setting modal
+    this.buttonSetting.addEventListener('click', () => this.model.setStateSettingModal())
+    this.themeToggle.addEventListener('click', (e) => this.handleChooseTheme(e))
 
     // this.model.createTask()
   }
 
-  handlerAddTaskTongue (e) {
+  handlerAddTaskToggle (e) {
     e.preventDefault()
     const inputs = this.addTask.querySelectorAll('input')
     if (inputs[0].value && inputs[1].value) {
       this.model.createTask(inputs)
-      this.model.tongueModalWindow()
+      this.model.ToggleModalWindow()
       inputs[0].value = ''
       inputs[1].value = ''
     }
@@ -129,7 +134,7 @@ class Controller {
   handleClickTask (e) {
     if (e.target.className === 'task__button') {
       this.model.setCurrentClickTask(e.target.id)
-      this.model.tongueTaskModal('task__button', e)
+      this.model.ToggleTaskModal('task__button', e)
     } else if (e.target.classList[1] === 'task__modal-option_complete_green') {
       this.model.completeTask()
     } else if (e.target.classList[1] === 'task__modal-option_edit_turquoise') {
@@ -137,6 +142,10 @@ class Controller {
     } else if (e.target.classList[1] === 'task__modal-option_delete_red') {
       this.model.removeTask()
     }
+  }
+
+  handleChooseTheme (e) {
+    if (e.target.value) this.model.setColorTheme(e.target.value)
   }
 }
 class Model {
@@ -149,6 +158,8 @@ class Model {
     this.modalWindowForEdit = false
     this.taskModal = false
     this.currentClickTask = null
+    this.modalSetting = false
+    this.colorTheme = 'white'
   }
 
   createTask (inputs) {
@@ -169,7 +180,7 @@ class Model {
     this.modalWindowForEdit = false
   }
 
-  tongueModalWindow () {
+  toggleModalWindow () {
     this.modalWindow = !this.modalWindow
     this.view.viewModalWindow(this.modalWindow)
   }
@@ -178,7 +189,7 @@ class Model {
     this.currentClickTask = this.arrayToDoTask.find(item => item.id === +id)
   }
 
-  tongueTaskModal (areaClick, e) {
+  toggleTaskModal (areaClick, e) {
     // click only button
     if (areaClick === 'task__button') {
       e.stopPropagation()
@@ -189,6 +200,16 @@ class Model {
       this.taskModal = false
       this.view.viewTaskModal(this.taskModal)
     }
+  }
+
+  setStateSettingModal () {
+    this.modalSetting = !this.modalSetting
+    this.view.setStateSettingModal(this.modalSetting)
+  }
+
+  setColorTheme (color) {
+    this.colorTheme = color
+    this.view.setColorTheme(this.colorTheme)
   }
 
   completeTask () {
@@ -203,7 +224,7 @@ class Model {
 
     this.modalWindowForEdit = true
 
-    this.tongueModalWindow()
+    this.ToggleModalWindow()
 
     inputs[0].value = this.currentClickTask.title
     inputs[1].value = this.currentClickTask.text
@@ -219,7 +240,6 @@ class Model {
   }
 
   setSortUpDate () {
-    console.log(1)
     this.arrayToDoTask = this.arrayToDoTask.sort((a, b) => a.getDate > b.getDate ? 1 : -1)
 
     this.view.viewArrayTask(this.arrayToDoTask)
@@ -238,6 +258,8 @@ class View {
     this.arrayToDoTask = wrapper.querySelector('.todo-section__array')
     this.arrayComplectedTask = wrapper.querySelector('.complected-section__array')
     this.modalWindow = wrapper.querySelector('.modal-window')
+    this.settingModal = wrapper.querySelector('.setting__modal-window')
+    this.navbar = wrapper.querySelector('.navbar')
   }
 
   viewArrayTask (arrayToDo, arrayComplected) {
@@ -258,16 +280,31 @@ class View {
     this.taskModal = this.wrapper.querySelector('.task__modal')
   }
 
+  setColorTheme (color) {
+    if (this.wrapper.classList[1]) this.wrapper.classList.remove(this.wrapper.classList[1])
+    this.wrapper.classList.add(`wrapper__theme_${color}`)
+
+    if (this.navbar.classList[1]) this.navbar.classList.remove(this.navbar.classList[1])
+    this.navbar.classList.add(`navbar__theme_${color}`)
+  }
+
+  checkBoolean (booleanValue, modalWindow) {
+    if (booleanValue) modalWindow.style.display = 'grid'
+    else modalWindow.style.display = ''
+  }
+
   viewModalWindow (booleanValue) {
-    if (booleanValue) this.modalWindow.style.display = 'grid'
-    else this.modalWindow.style.display = ''
+    this.checkBoolean(booleanValue, this.modalWindow)
   }
 
   viewTaskModal (booleanValue) {
     if (this.taskModal) {
-      if (booleanValue) this.taskModal.style.display = 'grid'
-      else this.taskModal.style.display = ''
+      this.checkBoolean(booleanValue, this.taskModal)
     }
+  }
+
+  setStateSettingModal (booleanValue) {
+    this.checkBoolean(booleanValue, this.settingModal)
   }
 }
 

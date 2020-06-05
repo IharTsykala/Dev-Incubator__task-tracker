@@ -1,10 +1,10 @@
-.task .task__setting, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close, .ruler-block .setting, .ruler-block .add-task-wrapper, .sort {
+.task .task__setting, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close, .ruler-block .setting, .ruler-block .add-task-wrapper, .sort {
   justify-self: end;
   align-self: center;
   height: 100%;
 }
 
-.task .task__setting .task__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button, .ruler-block .setting .setting__button, .ruler-block .add-task-wrapper .add-task-wrapper__button, .sort .sort__button {
+.task .task__setting .task__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle .add-task-toggle__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button, .ruler-block .setting .setting__button, .ruler-block .add-task-wrapper .add-task-wrapper__button, .sort .sort__button {
   height: 100%;
   background-color: #3278ff;
   border: 0;
@@ -13,7 +13,7 @@
   color: #e1e1e1;
   font-size: 1.2vw;
 }
-.task .task__setting .task__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue .add-task-tongue__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover, .ruler-block .setting .setting__button:hover, .ruler-block .add-task-wrapper .add-task-wrapper__button:hover, .sort .sort__button:hover {
+.task .task__setting .task__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle .add-task-toggle__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover, .ruler-block .setting .setting__button:hover, .ruler-block .add-task-wrapper .add-task-wrapper__button:hover, .sort .sort__button:hover {
   background-color: #2814ff;
 }
 
@@ -58,6 +58,21 @@
   column-gap: 10px;
   height: 60%;
 }
+.ruler-block .setting {
+  position: relative;
+}
+.ruler-block .setting .setting__modal-window {
+  position: absolute;
+  width: 20vw;
+  height: 5vw;
+  left: -15vw;
+  border-radius: 5%;
+  border: 3px solid #fafafa;
+  display: none;
+  justify-content: center;
+  align-content: end;
+}
+
 .main {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -154,7 +169,7 @@
 .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover {
   background-color: #505050;
 }
-.modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-tongue {
+.modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle {
   justify-self: start;
 }
 .task {
@@ -253,6 +268,33 @@
 
 .task_green {
   color: green;
+}
+
+.navbar__theme_white, .wrapper__theme_white {
+  background-color: white;
+  color: black;
+}
+
+.navbar__theme_grey, .wrapper__theme_grey {
+  background-color: grey;
+  color: black;
+}
+
+.navbar__theme_black, .wrapper__theme_black {
+  background-color: black;
+  color: white;
+}
+
+.navbar__theme_white {
+  background-color: #fafafa;
+}
+
+.navbar__theme_grey {
+  background-color: #fafafa;
+}
+
+.navbar__theme_black {
+  background-color: #252525;
 }
 
 /*# sourceMappingURL=style.css.map */
