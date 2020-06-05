@@ -270,31 +270,16 @@
   color: green;
 }
 
-.navbar__theme_white, .wrapper__theme_white {
+.navbar__theme_light, .wrapper__theme_light {
   background-color: white;
-  color: black;
 }
 
-.navbar__theme_grey, .wrapper__theme_grey {
-  background-color: grey;
-  color: black;
+.navbar__theme_middle, .wrapper__theme_middle {
+  background-color: gainsboro;
 }
 
-.navbar__theme_black, .wrapper__theme_black {
-  background-color: black;
-  color: white;
-}
-
-.navbar__theme_white {
-  background-color: #fafafa;
-}
-
-.navbar__theme_grey {
-  background-color: #fafafa;
-}
-
-.navbar__theme_black {
-  background-color: #252525;
+.navbar__theme_darken, .wrapper__theme_darken {
+  background-color: #bebebe;
 }
 
 /*# sourceMappingURL=style.css.map */

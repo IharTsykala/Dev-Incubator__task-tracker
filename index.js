@@ -164,7 +164,7 @@ class Model {
     this.taskModal = false
     this.currentClickTask = null
     this.modalSetting = false
-    this.colorTheme = 'white'
+    this.colorTheme = 'light'
   }
 
   getTaskLocalStorage (inputs) {
@@ -181,7 +181,7 @@ class Model {
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
 
     // color theme
-    const colorTheme = localStorage.getItem('colorTheme') || 'white'
+    const colorTheme = localStorage.getItem('colorTheme') || 'light'
 
     for (const input of inputs) {
       if (input.value === this.colorTheme) input.checked = true
@@ -338,6 +338,7 @@ class View {
   }
 
   setColorTheme (color) {
+    console.log(color)
     if (this.wrapper.classList[1]) this.wrapper.classList.remove(this.wrapper.classList[1])
     this.wrapper.classList.add(`wrapper__theme_${color}`)
 

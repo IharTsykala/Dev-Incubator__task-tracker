@@ -325,44 +325,38 @@ $middlePadding: 2vw;
   color: green;
 }
 
-%base-theme_white {
+%base-theme_light {
   background-color: white;
-  color: black;
 }
 
-%base-theme_grey {
-  background-color: grey;
-  color: black;
+%base-theme_middle {
+  background-color: rgb(220, 220, 220);
 }
 
-%base-theme_black {
-  background-color: black;
-  color: white;
+%base-theme_darken {
+  background-color: rgb(190, 190, 190);
 }
 
-.wrapper__theme_white {
-  @extend %base-theme_white;
+.wrapper__theme_light {
+  @extend %base-theme_light;
 }
 
-.wrapper__theme_grey {
-  @extend %base-theme_grey;
+.wrapper__theme_middle {
+  @extend %base-theme_middle;
 }
 
-.wrapper__theme_black {
-  @extend %base-theme_black;
+.wrapper__theme_darken {
+  @extend %base-theme_darken;
 }
 
-.navbar__theme_white {
-  @extend %base-theme_white;
-  background-color: $backgroundLight;
+.navbar__theme_light {
+  @extend %base-theme_light;
 }
 
-.navbar__theme_grey {
-  @extend %base-theme_grey;
-  background-color: $backgroundLight;
+.navbar__theme_middle {
+  @extend %base-theme_middle;
 }
 
-.navbar__theme_black {
-  @extend %base-theme_black;
-  background-color: $backgroundDark;
+.navbar__theme_darken {
+  @extend %base-theme_darken;
 }
