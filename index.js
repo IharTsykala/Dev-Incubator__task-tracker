@@ -184,7 +184,7 @@ class Model {
     const colorTheme = localStorage.getItem('colorTheme') || 'light'
 
     for (const input of inputs) {
-      if (input.value === this.colorTheme) input.checked = true
+      if (input.value === colorTheme) input.checked = true
     }
     this.setColorTheme(colorTheme)
   }
