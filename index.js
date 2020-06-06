@@ -164,6 +164,7 @@ class Controller {
   handleClickTask(e) {
     if (e.target.className === "task__button") {
       this.model.setCurrentClickTask(e.target.id)
+      this.model.setCurrentTaskIndex(e.target.id)
       this.model.toggleTaskModal("task__button", e)
     } else if (e.target.classList[1] === "task__modal-option_complete_green") {
       this.model.completeTask()
@@ -195,6 +196,8 @@ class Model {
     this.currentClickTask = null
     this.modalSetting = false
     this.colorTheme = "light"
+    this.currentClickTaskIndex = null
+    this.prevClickTaskIndex = null
   }
 
   getTaskLocalStorage(inputs) {
@@ -266,8 +269,12 @@ class Model {
         )
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
       }
-      console.log(this.arrayToDoTask, this.arrayComplectedTask)
-      this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
+
+      this.view.viewArrayTask(
+        this.currentTaskToDoIndex,
+        this.arrayToDoTask,
+        this.arrayComplectedTask
+      )
     }
     this.modalWindowForEdit = false
   }
@@ -281,14 +288,28 @@ class Model {
     this.currentClickTask = this.arrayToDoTask.find((item) => item.id === +id)
   }
 
+  setCurrentTaskIndex(id) {
+    this.prevClickTaskIndex = this.currentClickTaskIndex
+    this.currentClickTaskIndex = this.arrayToDoTask.findIndex(
+      (item) => item.id === +id
+    )
+  }
+
   toggleTaskModal(areaClick, e) {
     // click only button
-    if (areaClick === "task__button") {
+    if (
+      areaClick === "task__button" &&
+      e.target.id - 1 !== this.prevClickTaskIndex
+    ) {
       e.stopPropagation()
-      this.taskModal = !this.taskModal
-      this.view.viewTaskModal(this.taskModal)
-      // click on wrapper, but not button
-    } else if (areaClick === "wrapper" && this.taskModal) {
+      this.taskModal = true
+      this.view.viewTaskModal(this.taskModal, this.currentClickTaskIndex)
+      // click on wrapper or same button
+    } else if (
+      (areaClick === "wrapper" && this.taskModal) ||
+      (areaClick === "task__button" &&
+        e.target.id - 1 === this.prevClickTaskIndex)
+    ) {
       this.taskModal = false
       this.view.viewTaskModal(this.taskModal)
     }
@@ -312,7 +333,11 @@ class Model {
       this.currentClickTask
     )
 
-    this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
+    this.view.viewArrayTask(
+      this.currentTaskToDoIndex,
+      this.arrayToDoTask,
+      this.arrayComplectedTask
+    )
   }
 
   editTask(inputs) {
@@ -332,7 +357,7 @@ class Model {
       (item) => item.id !== this.currentClickTask.id
     )
 
-    this.view.viewArrayTask(this.arrayToDoTask)
+    this.view.viewArrayTask(this.currentTaskToDoIndex, this.arrayToDoTask)
   }
 
   setSortUpDate() {
@@ -340,7 +365,7 @@ class Model {
       a.getDate > b.getDate ? 1 : -1
     )
 
-    this.view.viewArrayTask(this.arrayToDoTask)
+    this.view.viewArrayTask(this.currentTaskToDoIndex, this.arrayToDoTask)
   }
 
   setSortDownDate() {
@@ -348,7 +373,7 @@ class Model {
       a.getDate < b.getDate ? 1 : -1
     )
 
-    this.view.viewArrayTask(this.arrayToDoTask)
+    this.view.viewArrayTask(this.currentTaskToDoIndex, this.arrayToDoTask)
   }
 }
 class View {
@@ -372,7 +397,7 @@ class View {
     this.writeCompletedTask(0)
   }
 
-  viewArrayTask(arrayToDo, arrayComplected) {
+  viewArrayTask(currentTaskToDoIndex, arrayToDo, arrayComplected) {
     // clear DOM
     if (arrayToDo) {
       while (this.arrayToDoTask.children.length) {
@@ -390,8 +415,9 @@ class View {
         this.arrayComplectedTask.append(item.viewTask(true))
       )
     }
+
     // taskModel had created
-    this.taskModal = this.wrapper.querySelector(".task__modal")
+    this.taskModalsCollections = this.wrapper.querySelectorAll(".task__modal")
 
     // amount tasks
     if (arrayToDo) {
@@ -422,7 +448,6 @@ class View {
   }
 
   setColorTheme(color) {
-    console.log(color)
     if (this.wrapper.classList[1])
       this.wrapper.classList.remove(this.wrapper.classList[1])
     this.wrapper.classList.add(`wrapper__theme_${color}`)
@@ -435,6 +460,7 @@ class View {
   }
 
   checkBoolean(booleanValue, modalWindow) {
+    console.log(modalWindow)
     if (booleanValue) modalWindow.style.display = "grid"
     else modalWindow.style.display = ""
   }
@@ -443,9 +469,15 @@ class View {
     this.checkBoolean(booleanValue, this.modalWindow)
   }
 
-  viewTaskModal(booleanValue) {
-    if (this.taskModal) {
-      this.checkBoolean(booleanValue, this.taskModal)
+  viewTaskModal(booleanValue, currentTaskToDoIndex) {
+    if (this.taskModalsCollections) {
+      //close previously modal
+      for (let item of this.taskModalsCollections) {
+        item.style.display = ""
+      }
+      // define current task
+      this.taskModal = this.taskModalsCollections[currentTaskToDoIndex]
+      if (this.taskModal) this.checkBoolean(booleanValue, this.taskModal)
     }
   }
 
