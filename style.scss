@@ -108,8 +108,9 @@ $middlePadding: 2vw;
 
 .main {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto;
   padding: $smallPadding $middlePadding;
+  height: 80vh;
 }
 
 %base-section {
@@ -123,6 +124,10 @@ $middlePadding: 2vw;
   .todo-section__header {
     font-size: $fsToDoHeader;
   }
+  .todo-section__array {
+    overflow-x: auto;
+    height: 90%;
+  }
 }
 
 .complected-section {
@@ -133,6 +138,10 @@ $middlePadding: 2vw;
 
   .complected-section__header {
     font-size: $fsToDoHeader;
+  }
+  .complected-section__array {
+    overflow-x: auto;
+    max-height: 90%;
   }
 }
 

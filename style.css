@@ -79,8 +79,9 @@
 
 .main {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto;
   padding: 1vw 2vw;
+  height: 80vh;
 }
 
 .complected-section, .todo-section {
@@ -92,6 +93,10 @@
 .todo-section .todo-section__header {
   font-size: 2vw;
 }
+.todo-section .todo-section__array {
+  overflow-x: auto;
+  height: 90%;
+}
 
 .complected-section {
   border-bottom: 0;
@@ -100,6 +105,10 @@
 }
 .complected-section .complected-section__header {
   font-size: 2vw;
+}
+.complected-section .complected-section__array {
+  overflow-x: auto;
+  max-height: 90%;
 }
 
 .modal-window {
