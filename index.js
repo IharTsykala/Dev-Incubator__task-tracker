@@ -139,7 +139,7 @@ class Controller {
       this.model.setSortUpDate()
     )
     this.sortDownButton.addEventListener("click", () =>
-      this.model.setSortUpDate()
+      this.model.setSortDownDate()
     )
     // setting modal
     this.buttonSetting.addEventListener("click", () =>
