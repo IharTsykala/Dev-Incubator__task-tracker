@@ -108,15 +108,17 @@ $middlePadding: 2vw;
 
 .main {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: repeat(2, 1fr);
   padding: $smallPadding $middlePadding;
-  height: 80vh;
+  max-height: 80vh;
 }
 
 %base-section {
   border-bottom: 1px solid $colorLight;
   padding-bottom: $smallPadding;
-  min-height: 10vw;
+  // min-height: 10vw;
+  // max-height: 50%;
+  overflow-x: auto;
 }
 
 .todo-section {
@@ -125,8 +127,7 @@ $middlePadding: 2vw;
     font-size: $fsToDoHeader;
   }
   .todo-section__array {
-    overflow-x: auto;
-    height: 90%;
+    max-height: 90%;
   }
 }
 
@@ -140,7 +141,6 @@ $middlePadding: 2vw;
     font-size: $fsToDoHeader;
   }
   .complected-section__array {
-    overflow-x: auto;
     max-height: 90%;
   }
 }
@@ -276,7 +276,7 @@ $middlePadding: 2vw;
       position: absolute;
       width: 10vw;
       height: 10vw;
-      background-color: $backgroundLight;      
+      background-color: $backgroundLight;
       left: -9vw;
       row-gap: $smallPadding;
       border: 1px solid $backgroundDark;

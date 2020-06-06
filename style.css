@@ -79,23 +79,22 @@
 
 .main {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: repeat(2, 1fr);
   padding: 1vw 2vw;
-  height: 80vh;
+  max-height: 80vh;
 }
 
 .complected-section, .todo-section {
   border-bottom: 1px solid #e1e1e1;
   padding-bottom: 1vw;
-  min-height: 10vw;
+  overflow-x: auto;
 }
 
 .todo-section .todo-section__header {
   font-size: 2vw;
 }
 .todo-section .todo-section__array {
-  overflow-x: auto;
-  height: 90%;
+  max-height: 90%;
 }
 
 .complected-section {
@@ -107,7 +106,6 @@
   font-size: 2vw;
 }
 .complected-section .complected-section__array {
-  overflow-x: auto;
   max-height: 90%;
 }
 
