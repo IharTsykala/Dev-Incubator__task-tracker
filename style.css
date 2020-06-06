@@ -153,6 +153,7 @@
 }
 .modal-window .add-task .add-task__body {
   padding: 1vw;
+  font-size: 1.5vw;
 }
 .modal-window .add-task .add-task__body .add-task__form {
   display: grid;
@@ -161,9 +162,6 @@
 }
 .modal-window .add-task .add-task__body .add-task__form .level-task {
   border: 0;
-}
-.modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__name {
-  width: 20%;
 }
 .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options {
   display: grid;
