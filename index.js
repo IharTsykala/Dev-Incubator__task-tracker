@@ -270,11 +270,7 @@ class Model {
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
       }
 
-      this.view.viewArrayTask(
-        this.currentTaskToDoIndex,
-        this.arrayToDoTask,
-        this.arrayComplectedTask
-      )
+      this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
     }
     this.modalWindowForEdit = false
   }
@@ -333,11 +329,7 @@ class Model {
       this.currentClickTask
     )
 
-    this.view.viewArrayTask(
-      this.currentTaskToDoIndex,
-      this.arrayToDoTask,
-      this.arrayComplectedTask
-    )
+    this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
   }
 
   editTask(inputs) {
@@ -357,7 +349,7 @@ class Model {
       (item) => item.id !== this.currentClickTask.id
     )
 
-    this.view.viewArrayTask(this.currentTaskToDoIndex, this.arrayToDoTask)
+    this.view.viewArrayTask(this.arrayToDoTask)
   }
 
   setSortUpDate() {
@@ -365,7 +357,7 @@ class Model {
       a.getDate > b.getDate ? 1 : -1
     )
 
-    this.view.viewArrayTask(this.currentTaskToDoIndex, this.arrayToDoTask)
+    this.view.viewArrayTask(this.arrayToDoTask)
   }
 
   setSortDownDate() {
@@ -373,7 +365,7 @@ class Model {
       a.getDate < b.getDate ? 1 : -1
     )
 
-    this.view.viewArrayTask(this.currentTaskToDoIndex, this.arrayToDoTask)
+    this.view.viewArrayTask(this.arrayToDoTask)
   }
 }
 class View {
@@ -397,7 +389,7 @@ class View {
     this.writeCompletedTask(0)
   }
 
-  viewArrayTask(currentTaskToDoIndex, arrayToDo, arrayComplected) {
+  viewArrayTask(arrayToDo, arrayComplected) {
     // clear DOM
     if (arrayToDo) {
       while (this.arrayToDoTask.children.length) {
@@ -460,7 +452,6 @@ class View {
   }
 
   checkBoolean(booleanValue, modalWindow) {
-    console.log(modalWindow)
     if (booleanValue) modalWindow.style.display = "grid"
     else modalWindow.style.display = ""
   }
