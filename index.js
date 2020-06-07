@@ -72,7 +72,7 @@ class Task {
     }
   }
 
-  viewTask(disabled) {
+  setDisabled(disabled) {
     if (disabled) {
       this.display = "none"
       this.disabled = "disabled"
@@ -80,6 +80,10 @@ class Task {
       this.display = "grid"
       this.disabled = ""
     }
+  }
+
+  viewTask(disabled) {
+    this.setDisabled(disabled)
     this.colorTask = this.setColorTask(this.priority)
     this.task = document.createElement("div")
     this.task.className = `task task${this.id} task_${this.colorTask} task_${this.disabled}`
@@ -164,9 +168,7 @@ class Controller {
 
   handleClickTask(e) {
     if (e.target.className === "task__button") {
-      // console.log(4, e.target)
       this.model.setCurrentClickTask(e.target.id)
-      this.model.setPrevTaskIndex(e.target.id)
       this.model.setCurrentTaskIndex(e.target.id)
       this.model.toggleTaskModal("task__button", e)
     } else if (e.target.innerHTML.trim() === "Complete") {
@@ -201,7 +203,7 @@ class Model {
     this.colorTheme = "light"
     this.currentClickTaskIndex = null
     this.prevClickTaskIndex = null
-    this.currentIdTask = null
+    this.idCurrentTask = null
     this.idPrevTask = null
   }
 
@@ -236,7 +238,6 @@ class Model {
       this.arrayToDoTask = this.mappingArray(this.arrayToDoTask)
       this.arrayComplectedTask = this.mappingArray(this.arrayComplectedTask)
     }
-
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
 
     //idTask
@@ -270,7 +271,6 @@ class Model {
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
         localStorage.setItem("idTask", this.idTask)
       }
-
       this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
     }
     this.modalWindowForEdit = false
@@ -281,25 +281,8 @@ class Model {
     this.view.viewModalWindow(this.modalWindow)
   }
 
-  setPrevTaskIndex(prevId) {
-    if (this.currentIdTask) {
-      return (this.prevClickTaskIndex = this.arrayToDoTask.findIndex(
-        (item) => item.id === prevId
-      ))
-    }
-  }
-
   setCurrentClickTask(id) {
     this.currentClickTask = this.arrayToDoTask.find((item) => item.id === +id)
-  }
-
-  setPrevTaskIndex(id) {
-    if (this.currentIdTask) {
-      this.prevClickTaskIndex = this.arrayToDoTask.findIndex(
-        (item) => item.id === this.currentIdTask //after will be set new  this.currentIdTask
-      )
-    }
-    this.idPrevTask = this.currentIdTask
   }
 
   setCurrentTaskIndex(id) {
@@ -307,43 +290,18 @@ class Model {
     this.currentClickTaskIndex = this.arrayToDoTask.findIndex(
       (item) => item.id === +id
     )
-    this.currentIdTask = +id
+    this.idPrevTask = this.idCurrentTask
+    this.idCurrentTask = +id
   }
 
   toggleTaskModal(areaClick, e) {
     // click only button
-    console.log(
-      "out if",
-      this.taskModal,
-      this.currentClickTaskIndex,
-      e.target.id,
-      this.idPrevTask
-    )
-    console.log(
-      "out if2",
-      areaClick === "task__button",
-      +e.target.id !== this.idPrevTask,
-      this.taskModal === false
-    )
     if (
       (areaClick === "task__button" && +e.target.id !== this.idPrevTask) ||
       (areaClick === "task__button" &&
-        +e.target.id === this.idPrevTask &&
+        this.idCurrentTask === this.idPrevTask &&
         this.taskModal === false)
     ) {
-      console.log(
-        "in if"
-        // this.taskModal,
-        // this.currentClickTaskIndex,
-        // e.target.id,
-        // this.idPrevTask
-      )
-      // console.log(
-      //   "in if2",
-      //   areaClick === "task__button",
-      //   +e.target.id !== this.prevClickTaskIndex,
-      //   this.taskModal === false
-      // )
       e.stopPropagation()
       this.taskModal = true
       this.view.viewTaskModal(this.taskModal, this.currentClickTaskIndex)
@@ -352,7 +310,6 @@ class Model {
       (areaClick === "wrapper" && this.taskModal) ||
       (areaClick === "task__button" && +e.target.id === this.idPrevTask)
     ) {
-      console.log(2, this.taskModal)
       this.taskModal = false
       this.view.viewTaskModal(this.taskModal)
     }
