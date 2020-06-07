@@ -163,14 +163,15 @@ class Controller {
 
   handleClickTask(e) {
     if (e.target.className === "task__button") {
+      console.log(4, e.target)
       this.model.setCurrentClickTask(e.target.id)
       this.model.setCurrentTaskIndex(e.target.id)
       this.model.toggleTaskModal("task__button", e)
-    } else if (e.target.classList[1] === "task__modal-option_complete_green") {
+    } else if (e.target.innerHTML.trim() === "Complete") {
       this.model.completeTask()
-    } else if (e.target.classList[1] === "task__modal-option_edit_turquoise") {
+    } else if (e.target.innerHTML.trim() === "Edit") {
       this.model.editTask(this.addTask.querySelectorAll("input"))
-    } else if (e.target.classList[1] === "task__modal-option_delete_red") {
+    } else if (e.target.innerHTML.trim() === "Delete") {
       this.model.removeTask()
     }
   }
@@ -200,6 +201,23 @@ class Model {
     this.prevClickTaskIndex = null
   }
 
+  mappingArray(array) {
+    return array.map(
+      (item) =>
+        new Task(
+          item.id,
+          item.title,
+          item.text,
+          item.priority,
+          item.data,
+          item.getTime,
+          item.disabled,
+          item.display,
+          item.colorTask
+        )
+    )
+  }
+
   getTaskLocalStorage(inputs) {
     // tasks
     if (
@@ -210,37 +228,15 @@ class Model {
       this.arrayComplectedTask = JSON.parse(
         localStorage.getItem("arrayComplected")
       )
-      this.arrayToDoTask = this.arrayToDoTask.map(
-        (item) =>
-          new Task(
-            item.id,
-            item.title,
-            item.text,
-            item.priority,
-            item.data,
-            item.getTime,
-            item.disabled,
-            item.display,
-            item.colorTask
-          )
-      )
-      this.arrayComplectedTask = this.arrayComplectedTask.map(
-        (item) =>
-          new Task(
-            item.id,
-            item.title,
-            item.text,
-            item.priority,
-            item.data,
-            item.getTime,
-            item.disabled,
-            item.display,
-            item.colorTask
-          )
-      )
+
+      this.arrayToDoTask = this.mappingArray(this.arrayToDoTask)
+      this.arrayComplectedTask = this.mappingArray(this.arrayComplectedTask)
     }
 
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
+
+    //idTask
+    this.idTask = localStorage.getItem("idTask") || 1
 
     // color theme
     const colorTheme = localStorage.getItem("colorTheme") || "light"
@@ -268,6 +264,7 @@ class Model {
           priority.value
         )
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
+        localStorage.setItem("idTask", this.idTask)
       }
 
       this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
@@ -285,6 +282,7 @@ class Model {
   }
 
   setCurrentTaskIndex(id) {
+    // console.log(3, id)
     this.prevClickTaskIndex = this.currentClickTaskIndex
     this.currentClickTaskIndex = this.arrayToDoTask.findIndex(
       (item) => item.id === +id
@@ -295,8 +293,10 @@ class Model {
     // click only button
     if (
       areaClick === "task__button" &&
-      e.target.id - 1 !== this.prevClickTaskIndex
+      e.target.id - 1 !== this.prevClickTaskIndex &&
+      this.taskModal === false
     ) {
+      console.log(1, this.taskModal, this.currentClickTaskIndex)
       e.stopPropagation()
       this.taskModal = true
       this.view.viewTaskModal(this.taskModal, this.currentClickTaskIndex)
@@ -306,6 +306,7 @@ class Model {
       (areaClick === "task__button" &&
         e.target.id - 1 === this.prevClickTaskIndex)
     ) {
+      console.log(2)
       this.taskModal = false
       this.view.viewTaskModal(this.taskModal)
     }
