@@ -129,9 +129,10 @@ class Controller {
       this.handlerAddTaskToggle(e)
     )
     // close modal for button in the task
-    this.wrapper.addEventListener("click", (e) =>
-      this.model.toggleTaskModal("wrapper", e)
-    )
+    this.wrapper.addEventListener("click", (e) => {
+      if (e.target.className !== "task__button")
+        this.model.toggleTaskModal("wrapper", e)
+    })
     // click on task with handler on parent
     this.toDoArray.addEventListener("click", (e) => this.handleClickTask(e))
     // sort
@@ -163,8 +164,9 @@ class Controller {
 
   handleClickTask(e) {
     if (e.target.className === "task__button") {
-      console.log(4, e.target)
+      // console.log(4, e.target)
       this.model.setCurrentClickTask(e.target.id)
+      this.model.setPrevTaskIndex(e.target.id)
       this.model.setCurrentTaskIndex(e.target.id)
       this.model.toggleTaskModal("task__button", e)
     } else if (e.target.innerHTML.trim() === "Complete") {
@@ -199,6 +201,8 @@ class Model {
     this.colorTheme = "light"
     this.currentClickTaskIndex = null
     this.prevClickTaskIndex = null
+    this.currentIdTask = null
+    this.idPrevTask = null
   }
 
   mappingArray(array) {
@@ -277,36 +281,78 @@ class Model {
     this.view.viewModalWindow(this.modalWindow)
   }
 
+  setPrevTaskIndex(prevId) {
+    if (this.currentIdTask) {
+      return (this.prevClickTaskIndex = this.arrayToDoTask.findIndex(
+        (item) => item.id === prevId
+      ))
+    }
+  }
+
   setCurrentClickTask(id) {
     this.currentClickTask = this.arrayToDoTask.find((item) => item.id === +id)
   }
 
+  setPrevTaskIndex(id) {
+    if (this.currentIdTask) {
+      this.prevClickTaskIndex = this.arrayToDoTask.findIndex(
+        (item) => item.id === this.currentIdTask //after will be set new  this.currentIdTask
+      )
+    }
+    this.idPrevTask = this.currentIdTask
+  }
+
   setCurrentTaskIndex(id) {
     // console.log(3, id)
-    this.prevClickTaskIndex = this.currentClickTaskIndex
     this.currentClickTaskIndex = this.arrayToDoTask.findIndex(
       (item) => item.id === +id
     )
+    this.currentIdTask = +id
   }
 
   toggleTaskModal(areaClick, e) {
     // click only button
-    if (
-      areaClick === "task__button" &&
-      e.target.id - 1 !== this.prevClickTaskIndex &&
+    console.log(
+      "out if",
+      this.taskModal,
+      this.currentClickTaskIndex,
+      e.target.id,
+      this.idPrevTask
+    )
+    console.log(
+      "out if2",
+      areaClick === "task__button",
+      +e.target.id !== this.idPrevTask,
       this.taskModal === false
+    )
+    if (
+      (areaClick === "task__button" && +e.target.id !== this.idPrevTask) ||
+      (areaClick === "task__button" &&
+        +e.target.id === this.idPrevTask &&
+        this.taskModal === false)
     ) {
-      console.log(1, this.taskModal, this.currentClickTaskIndex)
+      console.log(
+        "in if"
+        // this.taskModal,
+        // this.currentClickTaskIndex,
+        // e.target.id,
+        // this.idPrevTask
+      )
+      // console.log(
+      //   "in if2",
+      //   areaClick === "task__button",
+      //   +e.target.id !== this.prevClickTaskIndex,
+      //   this.taskModal === false
+      // )
       e.stopPropagation()
       this.taskModal = true
       this.view.viewTaskModal(this.taskModal, this.currentClickTaskIndex)
       // click on wrapper or same button
     } else if (
       (areaClick === "wrapper" && this.taskModal) ||
-      (areaClick === "task__button" &&
-        e.target.id - 1 === this.prevClickTaskIndex)
+      (areaClick === "task__button" && +e.target.id === this.idPrevTask)
     ) {
-      console.log(2)
+      console.log(2, this.taskModal)
       this.taskModal = false
       this.view.viewTaskModal(this.taskModal)
     }
