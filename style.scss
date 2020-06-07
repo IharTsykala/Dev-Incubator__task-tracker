@@ -317,6 +317,7 @@ $middlePadding: 2vw;
     .task__button {
       @extend %base-button__inside;
       background-color: rgb(115, 115, 115);
+      align-content: center;
       &:hover {
         background-color: rgb(80, 80, 80);
       }

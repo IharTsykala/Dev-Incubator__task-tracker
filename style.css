@@ -258,6 +258,7 @@
 }
 .task .task__setting .task__button {
   background-color: #737373;
+  align-content: center;
 }
 .task .task__setting .task__button:hover {
   background-color: #505050;
