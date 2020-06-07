@@ -180,22 +180,43 @@ $middlePadding: 2vw;
     %base-field {
       display: grid;
       grid-template-columns: 20% 1fr;
+      width: 35vw;
     }
 
     %radio-field {
       display: grid;
       grid-template-columns: 5% 1fr;
+      @media (max-width: 1280px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 800px) {
+        grid-template-columns: 1fr;
+        row-gap: 1vw;
+      }
     }
 
     .add-task__body {
       padding: $smallPadding;
       font-size: 1.5vw;
       .add-task__form {
+        // width: 25vw;
+        // height: 25vw;
         display: grid;
         grid-template-rows: repeat(2, 1fr) 2fr 1fr;
         row-gap: $middlePadding;
         .add-task__label {
           @extend %base-field;
+          .add-task__input {
+            width: 30vw;
+            height: 3vw;
+            &::placeholder {
+              // color: blue;
+              font-size: 1.5vw;
+              @media (max-width: 480px) {
+                font-size: 0;
+              }
+            }
+          }
         }
         .level-task {
           border: 0;
@@ -208,6 +229,9 @@ $middlePadding: 2vw;
           .level-task__options {
             display: grid;
             row-gap: $smallPadding;
+            @media (max-width: 1280px) {
+              grid-template-columns: repeat(3, 1fr);
+            }
             .level-task__label {
               @extend %radio-field;
             }

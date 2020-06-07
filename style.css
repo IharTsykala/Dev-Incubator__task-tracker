@@ -146,10 +146,22 @@
 .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper, .modal-window .add-task .add-task__body .add-task__form .add-task__label {
   display: grid;
   grid-template-columns: 20% 1fr;
+  width: 35vw;
 }
 .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
   display: grid;
   grid-template-columns: 5% 1fr;
+}
+@media (max-width: 1280px) {
+  .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
+    grid-template-columns: 1fr;
+    row-gap: 1vw;
+  }
 }
 .modal-window .add-task .add-task__body {
   padding: 1vw;
@@ -160,12 +172,29 @@
   grid-template-rows: repeat(2, 1fr) 2fr 1fr;
   row-gap: 2vw;
 }
+.modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input {
+  width: 30vw;
+  height: 3vw;
+}
+.modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input::placeholder {
+  font-size: 1.5vw;
+}
+@media (max-width: 480px) {
+  .modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input::placeholder {
+    font-size: 0;
+  }
+}
 .modal-window .add-task .add-task__body .add-task__form .level-task {
   border: 0;
 }
 .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options {
   display: grid;
   row-gap: 1vw;
+}
+@media (max-width: 1280px) {
+  .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 .modal-window .add-task .add-task__body .add-task__form .add-task__ruler {
   display: grid;
