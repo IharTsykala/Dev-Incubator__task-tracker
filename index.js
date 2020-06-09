@@ -1,5 +1,5 @@
 class Task {
-  constructor(
+  constructor({
     id,
     title,
     text,
@@ -8,8 +8,8 @@ class Task {
     getTime,
     disabled,
     display,
-    colorTask
-  ) {
+    colorTask,
+  }) {
     this.id = id
     this.title = title
     this.text = text
@@ -20,6 +20,8 @@ class Task {
     this.display = display || "grid"
     this.colorTask = colorTask || "red"
   }
+
+  // console.log(title)
 
   fillContentTask() {
     return `<div class="task__information-block">
@@ -207,23 +209,6 @@ class Model {
     this.idPrevTask = null
   }
 
-  mappingArray(array) {
-    return array.map(
-      (item) =>
-        new Task(
-          item.id,
-          item.title,
-          item.text,
-          item.priority,
-          item.data,
-          item.getTime,
-          item.disabled,
-          item.display,
-          item.colorTask
-        )
-    )
-  }
-
   getTaskLocalStorage(inputs) {
     // tasks
     if (
@@ -235,8 +220,10 @@ class Model {
         localStorage.getItem("arrayComplected")
       )
 
-      this.arrayToDoTask = this.mappingArray(this.arrayToDoTask)
-      this.arrayComplectedTask = this.mappingArray(this.arrayComplectedTask)
+      this.arrayToDoTask = this.arrayToDoTask.map((task) => new Task(task))
+      this.arrayComplectedTask = this.arrayComplectedTask.map(
+        (task) => new Task(task)
+      )
     }
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask)
 
@@ -262,12 +249,13 @@ class Model {
         this.currentClickTask.priority = priority.value
       } else {
         // add new task
-        const newTask = new Task(
-          this.idTask++,
-          inputs[0].value,
-          inputs[1].value,
-          priority.value
-        )
+        const task = {
+          id: this.idTask++,
+          title: inputs[0].value,
+          text: inputs[1].value,
+          priority: priority.value,
+        }
+        const newTask = new Task(task)
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask)
         localStorage.setItem("idTask", this.idTask)
       }
@@ -358,7 +346,7 @@ class Model {
 
   setSortUpDate() {
     this.arrayToDoTask = this.arrayToDoTask.sort((a, b) =>
-      a.getDate > b.getDate ? 1 : -1
+      a.getDate > b.getDate ? 1 : 1
     )
 
     this.view.viewArrayTask(this.arrayToDoTask)
