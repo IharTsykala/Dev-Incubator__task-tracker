@@ -21,8 +21,6 @@ class Task {
     this.colorTask = colorTask || "red"
   }
 
-  // console.log(title)
-
   fillContentTask() {
     return `<div class="task__information-block">
     <div class="task__header">
