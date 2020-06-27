@@ -1,0 +1,259 @@
+.sort, .ruler-block .add-task-wrapper, .ruler-block .setting, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle, .task .task__setting {
+  justify-self: end;
+  align-self: center;
+  height: 100%; }
+
+.sort .sort__button, .ruler-block .add-task-wrapper .add-task-wrapper__button, .ruler-block .setting .setting__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle .add-task-toggle__button, .task .task__setting .task__button {
+  height: 100%;
+  background-color: #3278ff;
+  border: 0;
+  padding: 0 1vw;
+  border-radius: 10%;
+  color: #e1e1e1;
+  font-size: 1.2vw; }
+  .sort .sort__button:hover, .ruler-block .add-task-wrapper .add-task-wrapper__button:hover, .ruler-block .setting .setting__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover, .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle .add-task-toggle__button:hover, .task .task__setting .task__button:hover {
+    background-color: #2814ff; }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+.wrapper {
+  position: relative;
+  max-width: 100vw;
+  max-height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 5vw 1fr;
+  padding: 2vw; }
+
+.navbar {
+  background-color: #fafafa;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0 1vw; }
+
+.h1 {
+  font-size: 4vw;
+  align-self: center; }
+
+.sort {
+  height: 60%;
+  justify-self: center;
+  align-self: center; }
+
+.ruler-block {
+  justify-self: end;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 10px;
+  height: 60%; }
+  .ruler-block .setting {
+    position: relative; }
+    .ruler-block .setting .setting__modal-window {
+      position: absolute;
+      width: 30vw;
+      height: 5vw;
+      left: -25vw;
+      border-radius: 5%;
+      border: 3px solid #fafafa;
+      display: none;
+      justify-content: center;
+      align-content: center;
+      font-size: 1.5vw; }
+      .ruler-block .setting .setting__modal-window .color-toggle-name {
+        font-size: 2vw; }
+
+.main {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  padding: 1vw 2vw;
+  max-height: 80vh; }
+
+.todo-section, .complected-section {
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 1vw;
+  overflow-x: auto; }
+
+.todo-section .todo-section__header {
+  font-size: 2vw; }
+
+.todo-section .todo-section__array {
+  max-height: 90%; }
+
+.complected-section {
+  border-bottom: 0;
+  border-top: 1px solid #e1e1e1;
+  padding-top: 1vw; }
+  .complected-section .complected-section__header {
+    font-size: 2vw; }
+  .complected-section .complected-section__array {
+    max-height: 90%; }
+
+.modal-window {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(37, 37, 37, 0.8);
+  z-index: 10; }
+  .modal-window .add-task {
+    height: 30vw;
+    width: 40vw;
+    background-color: #fafafa;
+    justify-self: center;
+    align-self: center; }
+    .modal-window .add-task .add-task__header {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding: 1vw 1vw;
+      border-bottom: 1px solid #e1e1e1; }
+      .modal-window .add-task .add-task__header .add-task__h5 {
+        font-size: 2vw; }
+      .modal-window .add-task .add-task__header .add-task__header-close-button {
+        height: 100%;
+        width: 15%;
+        border: 0;
+        background-color: #fafafa;
+        cursor: pointer;
+        justify-self: end; }
+    .modal-window .add-task .add-task__body .add-task__form .add-task__label, .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper {
+      display: grid;
+      grid-template-columns: 20% 1fr;
+      width: 35vw; }
+    .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
+      display: grid;
+      grid-template-columns: 5% 1fr; }
+      @media (max-width: 1280px) {
+        .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
+          grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 800px) {
+        .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options .level-task__label {
+          grid-template-columns: 1fr;
+          row-gap: 1vw; } }
+    .modal-window .add-task .add-task__body {
+      padding: 1vw;
+      font-size: 1.5vw; }
+      .modal-window .add-task .add-task__body .add-task__form {
+        display: grid;
+        grid-template-rows: repeat(2, 1fr) 2fr 1fr;
+        row-gap: 2vw; }
+        .modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input {
+          width: 30vw;
+          height: 3vw;
+          font-size: 1.5vw; }
+          .modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input::placeholder {
+            font-size: 1.5vw; }
+            @media (max-width: 480px) {
+              .modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input::placeholder {
+                font-size: 0; } }
+        .modal-window .add-task .add-task__body .add-task__form .level-task {
+          border: 0; }
+        .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options {
+          display: grid;
+          row-gap: 1vw; }
+          @media (max-width: 1280px) {
+            .modal-window .add-task .add-task__body .add-task__form .level-task__wrapper .level-task__options {
+              grid-template-columns: repeat(3, 1fr); } }
+        .modal-window .add-task .add-task__body .add-task__form .add-task__ruler {
+          display: grid;
+          grid-template-columns: 40% 1fr;
+          column-gap: 1vw; }
+          .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button {
+            background-color: #737373; }
+            .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .close .close__button:hover {
+              background-color: #505050; }
+          .modal-window .add-task .add-task__body .add-task__form .add-task__ruler .add-task-toggle {
+            justify-self: start; }
+
+.task {
+  height: 10vw;
+  min-height: 100px;
+  border: 1px solid #e1e1e1;
+  padding: 1vw;
+  display: grid;
+  grid-template-columns: 90% 1fr; }
+  .task .task__information-block {
+    display: grid;
+    grid-template-rows: 30% 1fr; }
+    .task .task__information-block .task__header {
+      display: grid;
+      grid-template-columns: 60% repeat(2, 1fr); }
+      .task .task__information-block .task__header .task__title {
+        font-size: 2vw; }
+      .task .task__information-block .task__header .task__priority {
+        font-size: 1.5vw; }
+      .task .task__information-block .task__header .task__data {
+        font-size: 1.5vw; }
+    .task .task__information-block .task__text {
+      font-size: 1.7vw;
+      overflow-x: auto; }
+  .task .task__setting {
+    position: relative;
+    padding: 1vw; }
+    .task .task__setting .task__modal {
+      display: none;
+      position: absolute;
+      width: 10vw;
+      height: 10vw;
+      background-color: #fafafa;
+      left: -9vw;
+      row-gap: 1vw;
+      border: 1px solid #252525;
+      border-radius: 3%;
+      padding: 10%; }
+      .task .task__setting .task__modal .task__modal-option {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        justify-self: center;
+        justify-content: center;
+        align-content: center;
+        border-radius: 5%;
+        color: #e1e1e1;
+        font-size: 1.2vw;
+        cursor: pointer; }
+      .task .task__setting .task__modal .task__modal-option_complete_green {
+        background-color: green; }
+        .task .task__setting .task__modal .task__modal-option_complete_green:hover {
+          background-color: #004e00; }
+      .task .task__setting .task__modal .task__modal-option_edit_turquoise {
+        background-color: turquoise; }
+        .task .task__setting .task__modal .task__modal-option_edit_turquoise:hover {
+          background-color: #277a72; }
+      .task .task__setting .task__modal .task__modal-option_delete_red {
+        background-color: red; }
+        .task .task__setting .task__modal .task__modal-option_delete_red:hover {
+          background-color: #8a0000; }
+    .task .task__setting .task__button {
+      background-color: #737373;
+      align-content: center; }
+      .task .task__setting .task__button:hover {
+        background-color: #505050; }
+
+.task_disabled {
+  opacity: 0.5; }
+
+.task_red {
+  color: red; }
+
+.task_yellow {
+  color: yellow; }
+
+.task_green {
+  color: green; }
+
+.wrapper__theme_light, .navbar__theme_light {
+  background-color: white; }
+
+.wrapper__theme_middle, .navbar__theme_middle {
+  background-color: gainsboro; }
+
+.wrapper__theme_darken, .navbar__theme_darken {
+  background-color: #bebebe; }
+
+/*# sourceMappingURL=style.css.map*/
