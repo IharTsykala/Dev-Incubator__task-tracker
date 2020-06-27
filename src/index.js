@@ -1,4 +1,5 @@
 import "./style.scss"
+console.log("hello2")
 class Task {
   constructor({
     id,
