@@ -97,9 +97,32 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/controller */ "./src/js/controller.js");
+/* harmony import */ var _js_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/model */ "./src/js/model.js");
+/* harmony import */ var _js_view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/view */ "./src/js/view.js");
 
-console.log("hello2");
 
+
+
+const wrapper = document.getElementById("wrapper");
+const view = new _js_view__WEBPACK_IMPORTED_MODULE_3__["default"](wrapper);
+const model = new _js_model__WEBPACK_IMPORTED_MODULE_2__["default"](view);
+const controller = new _js_controller__WEBPACK_IMPORTED_MODULE_1__["default"](model, wrapper);
+view.initial();
+controller.initial();
+
+/***/ }),
+
+/***/ "./src/js/Task.js":
+/*!************************!*\
+  !*** ./src/js/Task.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Task; });
 class Task {
   constructor({
     id,
@@ -201,6 +224,18 @@ class Task {
 
 }
 
+/***/ }),
+
+/***/ "./src/js/controller.js":
+/*!******************************!*\
+  !*** ./src/js/controller.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Controller; });
 class Controller {
   constructor(model, wrapper) {
     this.model = model;
@@ -281,6 +316,20 @@ class Controller {
 
 }
 
+/***/ }),
+
+/***/ "./src/js/model.js":
+/*!*************************!*\
+  !*** ./src/js/model.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Model; });
+/* harmony import */ var _Task__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Task */ "./src/js/Task.js");
+
 class Model {
   constructor(view) {
     this.view = view;
@@ -304,8 +353,8 @@ class Model {
     if (Array.isArray(JSON.parse(localStorage.getItem("arrayToDo"))) && Array.isArray(JSON.parse(localStorage.getItem("arrayComplected")))) {
       this.arrayToDoTask = JSON.parse(localStorage.getItem("arrayToDo"));
       this.arrayComplectedTask = JSON.parse(localStorage.getItem("arrayComplected"));
-      this.arrayToDoTask = this.arrayToDoTask.map(task => new Task(task));
-      this.arrayComplectedTask = this.arrayComplectedTask.map(task => new Task(task));
+      this.arrayToDoTask = this.arrayToDoTask.map(task => new _Task__WEBPACK_IMPORTED_MODULE_0__["default"](task));
+      this.arrayComplectedTask = this.arrayComplectedTask.map(task => new _Task__WEBPACK_IMPORTED_MODULE_0__["default"](task));
     }
 
     this.view.viewArrayTask(this.arrayToDoTask, this.arrayComplectedTask); // idTask
@@ -337,7 +386,7 @@ class Model {
           text: inputs[1].value,
           priority: priority.value
         };
-        const newTask = new Task(task);
+        const newTask = new _Task__WEBPACK_IMPORTED_MODULE_0__["default"](task);
         this.arrayToDoTask = this.arrayToDoTask.concat(newTask);
         localStorage.setItem("idTask", this.idTask);
       }
@@ -419,6 +468,18 @@ class Model {
 
 }
 
+/***/ }),
+
+/***/ "./src/js/view.js":
+/*!************************!*\
+  !*** ./src/js/view.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return View; });
 class View {
   constructor(wrapper) {
     this.wrapper = wrapper;
@@ -528,13 +589,6 @@ class View {
   }
 
 }
-
-const wrapper = document.getElementById("wrapper");
-const view = new View(wrapper);
-const model = new Model(view);
-const controller = new Controller(model, wrapper);
-view.initial();
-controller.initial();
 
 /***/ }),
 

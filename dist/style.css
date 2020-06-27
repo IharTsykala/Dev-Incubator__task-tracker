@@ -144,7 +144,8 @@
         row-gap: 2vw; }
         .modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input {
           width: 30vw;
-          height: 3vw; }
+          height: 3vw;
+          font-size: 1.5vw; }
           .modal-window .add-task .add-task__body .add-task__form .add-task__label .add-task__input::placeholder {
             font-size: 1.5vw; }
             @media (max-width: 480px) {
